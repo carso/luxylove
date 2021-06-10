@@ -2842,7 +2842,7 @@ label, label + * {
 }
 
 .tooltip-container .tooltip-header {
-  background-color: #F6F6F6;
+  background-color: #f6f6f6;
   height: 25px;
   border-top-right-radius: 4px;
   border-top-left-radius: 4px;
@@ -8752,3 +8752,20 @@ pre {
     max-width: 100%;
   }
 }
+
+.bg-dark {
+  background-color: #4a5759 !important;
+}
+
+.bg-light {
+  background-color: #f7e1d7 !important;
+}
+
+.bg-light2 {
+  background-color: #dedbd2;
+}
+
+.bg-light3 {
+  background-color: #f6f6f6;
+}
+

@@ -40,6 +40,12 @@
 
     <Content Include="Themes\LuxyLove\Views\Home\Index.cshtml" />
 
+    <Content Include="Themes\LuxyLove\Views\Shared\Components\AdminHeaderLinks\Default.cshtml" />
+
+    <Content Include="Themes\LuxyLove\Views\Shared\Components\Footer\Default.cshtml" />
+
+    <Content Include="Themes\LuxyLove\Views\Shared\Components\NewsletterBox\Default.cshtml" />
+
     <Content Include="Themes\LuxyLove\Views\Shared\_Root.cshtml" />
 
     <Content Include="Themes\LuxyLove\Views\Shared\_Root.Head.cshtml" />
@@ -104,6 +110,9 @@
     <None Remove="Themes\LuxyLove\Content\images\wishlist-button.png" />
     <None Remove="Themes\LuxyLove\preview.jpg" />
     <None Remove="Themes\LuxyLove\Views\Home\Index.cshtml" />
+    <None Remove="Themes\LuxyLove\Views\Shared\Components\AdminHeaderLinks\Default.cshtml" />
+    <None Remove="Themes\LuxyLove\Views\Shared\Components\Footer\Default.cshtml" />
+    <None Remove="Themes\LuxyLove\Views\Shared\Components\NewsletterBox\Default.cshtml" />
     <None Remove="Themes\LuxyLove\Views\Shared\_Root.cshtml" />
     <None Remove="Themes\LuxyLove\Views\_Root.Head.cshtml" />
 
@@ -127,6 +136,18 @@
 
   <ItemGroup>
     <Content Update="Themes\LuxyLove\Views\Home\Index.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Themes\LuxyLove\Views\Shared\Components\AdminHeaderLinks\Default.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Themes\LuxyLove\Views\Shared\Components\Footer\Default.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Themes\LuxyLove\Views\Shared\Components\NewsletterBox\Default.cshtml">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>

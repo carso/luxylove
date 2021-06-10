@@ -22,13 +22,10 @@
 <div class="page home-page">
     <div class="page-body">
         @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.HomepageTop })
+        @await Component.InvokeAsync("NewsletterBox")
         @await Component.InvokeAsync("TopicBlock", new { systemName = "HomepageText" })
-
         @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.HomepageBeforeCategories })
         @await Component.InvokeAsync("HomepageCategories")
-
-
-
         @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.HomepageBeforeProducts })
         @await Component.InvokeAsync("HomepageProducts")
         @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.HomepageBeforeBestSellers })
@@ -38,6 +35,8 @@
         @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.HomepageBeforePoll })
         @await Component.InvokeAsync("HomepagePolls")
         @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.HomepageBottom })
+        @await Component.InvokeAsync("NewsletterBox")
+
     </div>
 </div>
 
