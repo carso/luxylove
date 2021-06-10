@@ -37,6 +37,18 @@
     <None Remove="Plugins\**;Themes\**" />
 
     <Content Include="Plugins\bin\placeholder.txt" CopyToPublishDirectory="PreserveNewest" />
+
+    <Content Include="Themes\LuxyLove\Views\Home\Index.cshtml" />
+
+    <Content Include="Themes\LuxyLove\Views\Shared\Components\AdminHeaderLinks\Default.cshtml" />
+
+    <Content Include="Themes\LuxyLove\Views\Shared\Components\Footer\Default.cshtml" />
+
+    <Content Include="Themes\LuxyLove\Views\Shared\Components\NewsletterBox\Default.cshtml" />
+
+    <Content Include="Themes\LuxyLove\Views\Shared\_Root.cshtml" />
+
+    <Content Include="Themes\LuxyLove\Views\Shared\_Root.Head.cshtml" />
     <None Include="Plugins\**" CopyToPublishDirectory="PreserveNewest" Exclude="Plugins\**\runtimes\**;Plugins\**\ref\**;Plugins\**\*.pdb" />
 
     <Content Include="Themes\**" CopyToPublishDirectory="PreserveNewest" Exclude="Themes\**\*.config;Themes\**\*.cshtml;Themes\**\*.json" />
@@ -44,6 +56,65 @@
 
     <!-- We copy the \Logs directory -->
     <Content Include="Logs\**" CopyToPublishDirectory="PreserveNewest" />
+    <None Remove="Themes\LuxyLove\Content\css\print.css" />
+    <None Remove="Themes\LuxyLove\Content\css\styles.css" />
+    <None Remove="Themes\LuxyLove\Content\css\styles.rtl.css" />
+    <None Remove="Themes\LuxyLove\Content\images\ajax-loader-small.gif" />
+    <None Remove="Themes\LuxyLove\Content\images\back-button.png" />
+    <None Remove="Themes\LuxyLove\Content\images\calendar-next.png" />
+    <None Remove="Themes\LuxyLove\Content\images\calendar-prev.png" />
+    <None Remove="Themes\LuxyLove\Content\images\close.png" />
+    <None Remove="Themes\LuxyLove\Content\images\compare-button.png" />
+    <None Remove="Themes\LuxyLove\Content\images\details.png" />
+    <None Remove="Themes\LuxyLove\Content\images\discontinued-product-icon.png" />
+    <None Remove="Themes\LuxyLove\Content\images\download-button.png" />
+    <None Remove="Themes\LuxyLove\Content\images\edit.png" />
+    <None Remove="Themes\LuxyLove\Content\images\edit_.png" />
+    <None Remove="Themes\LuxyLove\Content\images\email-button.png" />
+    <None Remove="Themes\LuxyLove\Content\images\first.png" />
+    <None Remove="Themes\LuxyLove\Content\images\ie_warning.jpg" />
+    <None Remove="Themes\LuxyLove\Content\images\last.png" />
+    <None Remove="Themes\LuxyLove\Content\images\loading.gif" />
+    <None Remove="Themes\LuxyLove\Content\images\logo.png" />
+    <None Remove="Themes\LuxyLove\Content\images\menu-icon.png" />
+    <None Remove="Themes\LuxyLove\Content\images\move.png" />
+    <None Remove="Themes\LuxyLove\Content\images\new.png" />
+    <None Remove="Themes\LuxyLove\Content\images\next.png" />
+    <None Remove="Themes\LuxyLove\Content\images\pointer.png" />
+    <None Remove="Themes\LuxyLove\Content\images\prev.png" />
+    <None Remove="Themes\LuxyLove\Content\images\rating1.png" />
+    <None Remove="Themes\LuxyLove\Content\images\rating2.png" />
+    <None Remove="Themes\LuxyLove\Content\images\remove.png" />
+    <None Remove="Themes\LuxyLove\Content\images\remove_.png" />
+    <None Remove="Themes\LuxyLove\Content\images\reply.png" />
+    <None Remove="Themes\LuxyLove\Content\images\retry.png" />
+    <None Remove="Themes\LuxyLove\Content\images\return.png" />
+    <None Remove="Themes\LuxyLove\Content\images\rss.png" />
+    <None Remove="Themes\LuxyLove\Content\images\shipping.png" />
+    <None Remove="Themes\LuxyLove\Content\images\shopping-bag.png" />
+    <None Remove="Themes\LuxyLove\Content\images\social-sprite.png" />
+    <None Remove="Themes\LuxyLove\Content\images\subscribe-button.png" />
+    <None Remove="Themes\LuxyLove\Content\images\toggle-black.png" />
+    <None Remove="Themes\LuxyLove\Content\images\toggle-gray.png" />
+    <None Remove="Themes\LuxyLove\Content\images\toggle-white.png" />
+    <None Remove="Themes\LuxyLove\Content\images\topic-type1.png" />
+    <None Remove="Themes\LuxyLove\Content\images\topic-type2.png" />
+    <None Remove="Themes\LuxyLove\Content\images\topic-type3.png" />
+    <None Remove="Themes\LuxyLove\Content\images\view-grid.png" />
+    <None Remove="Themes\LuxyLove\Content\images\view-list.png" />
+    <None Remove="Themes\LuxyLove\Content\images\vote-down-selected.png" />
+    <None Remove="Themes\LuxyLove\Content\images\vote-down.png" />
+    <None Remove="Themes\LuxyLove\Content\images\vote-up-selected.png" />
+    <None Remove="Themes\LuxyLove\Content\images\vote-up.png" />
+    <None Remove="Themes\LuxyLove\Content\images\watch.png" />
+    <None Remove="Themes\LuxyLove\Content\images\wishlist-button.png" />
+    <None Remove="Themes\LuxyLove\preview.jpg" />
+    <None Remove="Themes\LuxyLove\Views\Home\Index.cshtml" />
+    <None Remove="Themes\LuxyLove\Views\Shared\Components\AdminHeaderLinks\Default.cshtml" />
+    <None Remove="Themes\LuxyLove\Views\Shared\Components\Footer\Default.cshtml" />
+    <None Remove="Themes\LuxyLove\Views\Shared\Components\NewsletterBox\Default.cshtml" />
+    <None Remove="Themes\LuxyLove\Views\Shared\_Root.cshtml" />
+    <None Remove="Themes\LuxyLove\Views\_Root.Head.cshtml" />
 
     <None Update="Areas\Admin\sitemap.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -64,7 +135,34 @@
   </ItemGroup>
 
   <ItemGroup>
+
     <PackageReference Include="Stripe.net" Version="39.50.0" />
+
+    <Content Update="Themes\LuxyLove\Views\Home\Index.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Themes\LuxyLove\Views\Shared\Components\AdminHeaderLinks\Default.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Themes\LuxyLove\Views\Shared\Components\Footer\Default.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Themes\LuxyLove\Views\Shared\Components\NewsletterBox\Default.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Themes\LuxyLove\Views\Shared\_Root.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Themes\LuxyLove\Views\Shared\_Root.Head.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+
   </ItemGroup>
 
   <!-- This target execute after "Build" target.
