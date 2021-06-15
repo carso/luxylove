@@ -1,0 +1,953 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="luxylovedbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="nvarchar" MaxLength="1000" />
+          <Property Name="Email" Type="nvarchar" MaxLength="1000" />
+          <Property Name="EmailToRevalidate" Type="nvarchar" MaxLength="1000" />
+          <Property Name="SystemName" Type="nvarchar" MaxLength="400" />
+          <Property Name="BillingAddress_Id" Type="int" />
+          <Property Name="ShippingAddress_Id" Type="int" />
+          <Property Name="CustomerGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="AdminComment" Type="nvarchar(max)" />
+          <Property Name="IsTaxExempt" Type="bit" Nullable="false" />
+          <Property Name="AffiliateId" Type="int" Nullable="false" />
+          <Property Name="VendorId" Type="int" Nullable="false" />
+          <Property Name="HasShoppingCartItems" Type="bit" Nullable="false" />
+          <Property Name="RequireReLogin" Type="bit" Nullable="false" />
+          <Property Name="FailedLoginAttempts" Type="int" Nullable="false" />
+          <Property Name="CannotLoginUntilDateUtc" Type="datetime2" Precision="7" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+          <Property Name="Deleted" Type="bit" Nullable="false" />
+          <Property Name="IsSystemAccount" Type="bit" Nullable="false" />
+          <Property Name="LastIpAddress" Type="nvarchar(max)" />
+          <Property Name="CreatedOnUtc" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="LastLoginDateUtc" Type="datetime2" Precision="7" />
+          <Property Name="LastActivityDateUtc" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="RegisteredInStoreId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Luxy_Booking">
+          <Key>
+            <PropertyRef Name="BookingGuid" />
+          </Key>
+          <Property Name="Username" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="RoomCode" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="StartDateTime" Type="datetime" Nullable="false" />
+          <Property Name="EndDateTime" Type="datetime" Nullable="false" />
+          <Property Name="IsVoid" Type="bit" Nullable="false" />
+          <Property Name="BookingGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="RoomNo" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Floor" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="RoomType" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Price" Type="decimal" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="ProductId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Luxy_BookingSchedule">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StartDate" Type="datetime" Nullable="false" />
+          <Property Name="EndDate" Type="datetime" Nullable="false" />
+          <Property Name="ServiceCode" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="BookingGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="IsCompleted" Type="bit" Nullable="false" />
+          <Property Name="ActionByUsername" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="RatingCode" Type="varchar" MaxLength="50" />
+          <Property Name="Feedback" Type="varchar" MaxLength="150" />
+          <Property Name="TemplateId" Type="int" />
+        </EntityType>
+        <EntityType Name="Luxy_DailyServiceTemplate">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ServiceCode" Type="varchar" MaxLength="50" />
+          <Property Name="Day1" Type="bit" Nullable="false" />
+          <Property Name="Day2" Type="bit" Nullable="false" />
+          <Property Name="Day3" Type="bit" Nullable="false" />
+          <Property Name="TimeShot24" Type="int" Nullable="false" />
+          <Property Name="DurationMinutes" Type="int" Nullable="false" />
+          <Property Name="RoomCode" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Luxy_Room">
+          <Key>
+            <PropertyRef Name="RoomCode" />
+          </Key>
+          <Property Name="RoomCode" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="RoomType" Type="varchar" MaxLength="50" />
+          <Property Name="Price" Type="decimal" Precision="12" Scale="0" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="150" />
+          <Property Name="Floor" Type="varchar" MaxLength="10" />
+          <Property Name="ProductId" Type="int" />
+          <Property Name="RoomNo" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Luxy_Service">
+          <Key>
+            <PropertyRef Name="ServiceCode" />
+          </Key>
+          <Property Name="ServiceCode" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ActionByUsername" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="ProductId" Type="int" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="400" Nullable="false" />
+          <Property Name="MetaKeywords" Type="nvarchar" MaxLength="400" />
+          <Property Name="MetaTitle" Type="nvarchar" MaxLength="400" />
+          <Property Name="Sku" Type="nvarchar" MaxLength="400" />
+          <Property Name="ManufacturerPartNumber" Type="nvarchar" MaxLength="400" />
+          <Property Name="Gtin" Type="nvarchar" MaxLength="400" />
+          <Property Name="RequiredProductIds" Type="nvarchar" MaxLength="1000" />
+          <Property Name="AllowedQuantities" Type="nvarchar" MaxLength="1000" />
+          <Property Name="ProductTypeId" Type="int" Nullable="false" />
+          <Property Name="ParentGroupedProductId" Type="int" Nullable="false" />
+          <Property Name="VisibleIndividually" Type="bit" Nullable="false" />
+          <Property Name="ShortDescription" Type="nvarchar(max)" />
+          <Property Name="FullDescription" Type="nvarchar(max)" />
+          <Property Name="AdminComment" Type="nvarchar(max)" />
+          <Property Name="ProductTemplateId" Type="int" Nullable="false" />
+          <Property Name="VendorId" Type="int" Nullable="false" />
+          <Property Name="ShowOnHomepage" Type="bit" Nullable="false" />
+          <Property Name="MetaDescription" Type="nvarchar(max)" />
+          <Property Name="AllowCustomerReviews" Type="bit" Nullable="false" />
+          <Property Name="ApprovedRatingSum" Type="int" Nullable="false" />
+          <Property Name="NotApprovedRatingSum" Type="int" Nullable="false" />
+          <Property Name="ApprovedTotalReviews" Type="int" Nullable="false" />
+          <Property Name="NotApprovedTotalReviews" Type="int" Nullable="false" />
+          <Property Name="SubjectToAcl" Type="bit" Nullable="false" />
+          <Property Name="LimitedToStores" Type="bit" Nullable="false" />
+          <Property Name="IsGiftCard" Type="bit" Nullable="false" />
+          <Property Name="GiftCardTypeId" Type="int" Nullable="false" />
+          <Property Name="OverriddenGiftCardAmount" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="RequireOtherProducts" Type="bit" Nullable="false" />
+          <Property Name="AutomaticallyAddRequiredProducts" Type="bit" Nullable="false" />
+          <Property Name="IsDownload" Type="bit" Nullable="false" />
+          <Property Name="DownloadId" Type="int" Nullable="false" />
+          <Property Name="UnlimitedDownloads" Type="bit" Nullable="false" />
+          <Property Name="MaxNumberOfDownloads" Type="int" Nullable="false" />
+          <Property Name="DownloadExpirationDays" Type="int" />
+          <Property Name="DownloadActivationTypeId" Type="int" Nullable="false" />
+          <Property Name="HasSampleDownload" Type="bit" Nullable="false" />
+          <Property Name="SampleDownloadId" Type="int" Nullable="false" />
+          <Property Name="HasUserAgreement" Type="bit" Nullable="false" />
+          <Property Name="UserAgreementText" Type="nvarchar(max)" />
+          <Property Name="IsRecurring" Type="bit" Nullable="false" />
+          <Property Name="RecurringCycleLength" Type="int" Nullable="false" />
+          <Property Name="RecurringCyclePeriodId" Type="int" Nullable="false" />
+          <Property Name="RecurringTotalCycles" Type="int" Nullable="false" />
+          <Property Name="IsRental" Type="bit" Nullable="false" />
+          <Property Name="RentalPriceLength" Type="int" Nullable="false" />
+          <Property Name="RentalPricePeriodId" Type="int" Nullable="false" />
+          <Property Name="IsShipEnabled" Type="bit" Nullable="false" />
+          <Property Name="IsFreeShipping" Type="bit" Nullable="false" />
+          <Property Name="ShipSeparately" Type="bit" Nullable="false" />
+          <Property Name="AdditionalShippingCharge" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="DeliveryDateId" Type="int" Nullable="false" />
+          <Property Name="IsTaxExempt" Type="bit" Nullable="false" />
+          <Property Name="TaxCategoryId" Type="int" Nullable="false" />
+          <Property Name="IsTelecommunicationsOrBroadcastingOrElectronicServices" Type="bit" Nullable="false" />
+          <Property Name="ManageInventoryMethodId" Type="int" Nullable="false" />
+          <Property Name="ProductAvailabilityRangeId" Type="int" Nullable="false" />
+          <Property Name="UseMultipleWarehouses" Type="bit" Nullable="false" />
+          <Property Name="WarehouseId" Type="int" Nullable="false" />
+          <Property Name="StockQuantity" Type="int" Nullable="false" />
+          <Property Name="DisplayStockAvailability" Type="bit" Nullable="false" />
+          <Property Name="DisplayStockQuantity" Type="bit" Nullable="false" />
+          <Property Name="MinStockQuantity" Type="int" Nullable="false" />
+          <Property Name="LowStockActivityId" Type="int" Nullable="false" />
+          <Property Name="NotifyAdminForQuantityBelow" Type="int" Nullable="false" />
+          <Property Name="BackorderModeId" Type="int" Nullable="false" />
+          <Property Name="AllowBackInStockSubscriptions" Type="bit" Nullable="false" />
+          <Property Name="OrderMinimumQuantity" Type="int" Nullable="false" />
+          <Property Name="OrderMaximumQuantity" Type="int" Nullable="false" />
+          <Property Name="AllowAddingOnlyExistingAttributeCombinations" Type="bit" Nullable="false" />
+          <Property Name="NotReturnable" Type="bit" Nullable="false" />
+          <Property Name="DisableBuyButton" Type="bit" Nullable="false" />
+          <Property Name="DisableWishlistButton" Type="bit" Nullable="false" />
+          <Property Name="AvailableForPreOrder" Type="bit" Nullable="false" />
+          <Property Name="PreOrderAvailabilityStartDateTimeUtc" Type="datetime2" Precision="7" />
+          <Property Name="CallForPrice" Type="bit" Nullable="false" />
+          <Property Name="Price" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="OldPrice" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="ProductCost" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="CustomerEntersPrice" Type="bit" Nullable="false" />
+          <Property Name="MinimumCustomerEnteredPrice" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="MaximumCustomerEnteredPrice" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="BasepriceEnabled" Type="bit" Nullable="false" />
+          <Property Name="BasepriceAmount" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="BasepriceUnitId" Type="int" Nullable="false" />
+          <Property Name="BasepriceBaseAmount" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="BasepriceBaseUnitId" Type="int" Nullable="false" />
+          <Property Name="MarkAsNew" Type="bit" Nullable="false" />
+          <Property Name="MarkAsNewStartDateTimeUtc" Type="datetime2" Precision="7" />
+          <Property Name="MarkAsNewEndDateTimeUtc" Type="datetime2" Precision="7" />
+          <Property Name="HasTierPrices" Type="bit" Nullable="false" />
+          <Property Name="HasDiscountsApplied" Type="bit" Nullable="false" />
+          <Property Name="Weight" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Length" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Width" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Height" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="AvailableStartDateTimeUtc" Type="datetime2" Precision="7" />
+          <Property Name="AvailableEndDateTimeUtc" Type="datetime2" Precision="7" />
+          <Property Name="DisplayOrder" Type="int" Nullable="false" />
+          <Property Name="Published" Type="bit" Nullable="false" />
+          <Property Name="Deleted" Type="bit" Nullable="false" />
+          <Property Name="CreatedOnUtc" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="UpdatedOnUtc" Type="datetime2" Precision="7" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Luxy_Booking_Luxy_Room">
+          <End Role="Luxy_Room" Type="Self.Luxy_Room" Multiplicity="1" />
+          <End Role="Luxy_Booking" Type="Self.Luxy_Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Luxy_Room">
+              <PropertyRef Name="RoomCode" />
+            </Principal>
+            <Dependent Role="Luxy_Booking">
+              <PropertyRef Name="RoomCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Luxy_BookingSchedule_Luxy_Booking">
+          <End Role="Luxy_Booking" Type="Self.Luxy_Booking" Multiplicity="1" />
+          <End Role="Luxy_BookingSchedule" Type="Self.Luxy_BookingSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Luxy_Booking">
+              <PropertyRef Name="BookingGuid" />
+            </Principal>
+            <Dependent Role="Luxy_BookingSchedule">
+              <PropertyRef Name="BookingGuid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Luxy_BookingSchedule_Luxy_DailyServiceTemplate">
+          <End Role="Luxy_DailyServiceTemplate" Type="Self.Luxy_DailyServiceTemplate" Multiplicity="0..1" />
+          <End Role="Luxy_BookingSchedule" Type="Self.Luxy_BookingSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Luxy_DailyServiceTemplate">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Luxy_BookingSchedule">
+              <PropertyRef Name="TemplateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Luxy_BookingSchedule_Luxy_Service">
+          <End Role="Luxy_Service" Type="Self.Luxy_Service" Multiplicity="1" />
+          <End Role="Luxy_BookingSchedule" Type="Self.Luxy_BookingSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Luxy_Service">
+              <PropertyRef Name="ServiceCode" />
+            </Principal>
+            <Dependent Role="Luxy_BookingSchedule">
+              <PropertyRef Name="ServiceCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Luxy_DailyServiceTemplate_Luxy_Room">
+          <End Role="Luxy_Room" Type="Self.Luxy_Room" Multiplicity="0..1" />
+          <End Role="Luxy_DailyServiceTemplate" Type="Self.Luxy_DailyServiceTemplate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Luxy_Room">
+              <PropertyRef Name="RoomCode" />
+            </Principal>
+            <Dependent Role="Luxy_DailyServiceTemplate">
+              <PropertyRef Name="RoomCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Luxy_DailyServiceTemplate_Luxy_Service">
+          <End Role="Luxy_Service" Type="Self.Luxy_Service" Multiplicity="0..1" />
+          <End Role="Luxy_DailyServiceTemplate" Type="Self.Luxy_DailyServiceTemplate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Luxy_Service">
+              <PropertyRef Name="ServiceCode" />
+            </Principal>
+            <Dependent Role="Luxy_DailyServiceTemplate">
+              <PropertyRef Name="ServiceCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Luxy_Room_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+          <End Role="Luxy_Room" Type="Self.Luxy_Room" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Luxy_Room">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Luxy_Service_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="Luxy_Service" Type="Self.Luxy_Service" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Luxy_Service">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="luxylovedbModelStoreContainer">
+          <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Luxy_Booking" EntityType="Self.Luxy_Booking" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Luxy_BookingSchedule" EntityType="Self.Luxy_BookingSchedule" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Luxy_DailyServiceTemplate" EntityType="Self.Luxy_DailyServiceTemplate" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Luxy_Room" EntityType="Self.Luxy_Room" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Luxy_Service" EntityType="Self.Luxy_Service" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Luxy_Booking_Luxy_Room" Association="Self.FK_Luxy_Booking_Luxy_Room">
+            <End Role="Luxy_Room" EntitySet="Luxy_Room" />
+            <End Role="Luxy_Booking" EntitySet="Luxy_Booking" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Luxy_BookingSchedule_Luxy_Booking" Association="Self.FK_Luxy_BookingSchedule_Luxy_Booking">
+            <End Role="Luxy_Booking" EntitySet="Luxy_Booking" />
+            <End Role="Luxy_BookingSchedule" EntitySet="Luxy_BookingSchedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Luxy_BookingSchedule_Luxy_DailyServiceTemplate" Association="Self.FK_Luxy_BookingSchedule_Luxy_DailyServiceTemplate">
+            <End Role="Luxy_DailyServiceTemplate" EntitySet="Luxy_DailyServiceTemplate" />
+            <End Role="Luxy_BookingSchedule" EntitySet="Luxy_BookingSchedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Luxy_BookingSchedule_Luxy_Service" Association="Self.FK_Luxy_BookingSchedule_Luxy_Service">
+            <End Role="Luxy_Service" EntitySet="Luxy_Service" />
+            <End Role="Luxy_BookingSchedule" EntitySet="Luxy_BookingSchedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Luxy_DailyServiceTemplate_Luxy_Room" Association="Self.FK_Luxy_DailyServiceTemplate_Luxy_Room">
+            <End Role="Luxy_Room" EntitySet="Luxy_Room" />
+            <End Role="Luxy_DailyServiceTemplate" EntitySet="Luxy_DailyServiceTemplate" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Luxy_DailyServiceTemplate_Luxy_Service" Association="Self.FK_Luxy_DailyServiceTemplate_Luxy_Service">
+            <End Role="Luxy_Service" EntitySet="Luxy_Service" />
+            <End Role="Luxy_DailyServiceTemplate" EntitySet="Luxy_DailyServiceTemplate" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Luxy_Room_Product" Association="Self.FK_Luxy_Room_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Luxy_Room" EntitySet="Luxy_Room" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Luxy_Service_Product" Association="Self.FK_Luxy_Service_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Luxy_Service" EntitySet="Luxy_Service" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="luxylovedbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Luxy_Booking">
+          <Key>
+            <PropertyRef Name="BookingGuid" />
+          </Key>
+          <Property Name="Username" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="RoomCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="BookingGuid" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="Luxy_Room" Relationship="Self.FK_Luxy_Booking_Luxy_Room" FromRole="Luxy_Booking" ToRole="Luxy_Room" />
+          <NavigationProperty Name="Luxy_BookingSchedule" Relationship="Self.FK_Luxy_BookingSchedule_Luxy_Booking" FromRole="Luxy_Booking" ToRole="Luxy_BookingSchedule" />
+          <Property Name="StartDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EndDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsVoid" Type="Boolean" Nullable="false" />
+          <Property Name="RoomNo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Floor" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="RoomType" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Price" Type="Decimal" Nullable="false" Precision="12" Scale="0" />
+          <Property Name="ProductId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Luxy_BookingSchedule">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ServiceCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="BookingGuid" Type="Guid" Nullable="false" />
+          <Property Name="IsCompleted" Type="Boolean" Nullable="false" />
+          <Property Name="ActionByUsername" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="RatingCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Feedback" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="TemplateId" Type="Int32" />
+          <NavigationProperty Name="Luxy_Booking" Relationship="Self.FK_Luxy_BookingSchedule_Luxy_Booking" FromRole="Luxy_BookingSchedule" ToRole="Luxy_Booking" />
+          <NavigationProperty Name="Luxy_DailyServiceTemplate" Relationship="Self.FK_Luxy_BookingSchedule_Luxy_DailyServiceTemplate" FromRole="Luxy_BookingSchedule" ToRole="Luxy_DailyServiceTemplate" />
+          <NavigationProperty Name="Luxy_Service" Relationship="Self.FK_Luxy_BookingSchedule_Luxy_Service" FromRole="Luxy_BookingSchedule" ToRole="Luxy_Service" />
+        </EntityType>
+        <EntityType Name="Luxy_DailyServiceTemplate">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ServiceCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Day1" Type="Boolean" Nullable="false" />
+          <Property Name="Day2" Type="Boolean" Nullable="false" />
+          <Property Name="Day3" Type="Boolean" Nullable="false" />
+          <Property Name="TimeShot24" Type="Int32" Nullable="false" />
+          <Property Name="DurationMinutes" Type="Int32" Nullable="false" />
+          <Property Name="RoomCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Luxy_BookingSchedule" Relationship="Self.FK_Luxy_BookingSchedule_Luxy_DailyServiceTemplate" FromRole="Luxy_DailyServiceTemplate" ToRole="Luxy_BookingSchedule" />
+          <NavigationProperty Name="Luxy_Room" Relationship="Self.FK_Luxy_DailyServiceTemplate_Luxy_Room" FromRole="Luxy_DailyServiceTemplate" ToRole="Luxy_Room" />
+          <NavigationProperty Name="Luxy_Service" Relationship="Self.FK_Luxy_DailyServiceTemplate_Luxy_Service" FromRole="Luxy_DailyServiceTemplate" ToRole="Luxy_Service" />
+        </EntityType>
+        <EntityType Name="Luxy_Room">
+          <Key>
+            <PropertyRef Name="RoomCode" />
+          </Key>
+          <Property Name="RoomCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="RoomType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Price" Type="Decimal" Precision="12" Scale="0" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Floor" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="ProductId" Type="Int32" />
+          <NavigationProperty Name="Luxy_Booking" Relationship="Self.FK_Luxy_Booking_Luxy_Room" FromRole="Luxy_Room" ToRole="Luxy_Booking" />
+          <NavigationProperty Name="Luxy_DailyServiceTemplate" Relationship="Self.FK_Luxy_DailyServiceTemplate_Luxy_Room" FromRole="Luxy_Room" ToRole="Luxy_DailyServiceTemplate" />
+          <NavigationProperty Name="Product" Relationship="Self.FK_Luxy_Room_Product" FromRole="Luxy_Room" ToRole="Product" />
+          <Property Name="RoomNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Luxy_Service">
+          <Key>
+            <PropertyRef Name="ServiceCode" />
+          </Key>
+          <Property Name="ServiceCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ActionByUsername" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ProductId" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Luxy_BookingSchedule" Relationship="Self.FK_Luxy_BookingSchedule_Luxy_Service" FromRole="Luxy_Service" ToRole="Luxy_BookingSchedule" />
+          <NavigationProperty Name="Luxy_DailyServiceTemplate" Relationship="Self.FK_Luxy_DailyServiceTemplate_Luxy_Service" FromRole="Luxy_Service" ToRole="Luxy_DailyServiceTemplate" />
+          <NavigationProperty Name="Product" Relationship="Self.FK_Luxy_Service_Product" FromRole="Luxy_Service" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="400" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MetaKeywords" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+          <Property Name="MetaTitle" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+          <Property Name="Sku" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+          <Property Name="ManufacturerPartNumber" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+          <Property Name="Gtin" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+          <Property Name="RequiredProductIds" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="AllowedQuantities" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="ProductTypeId" Type="Int32" Nullable="false" />
+          <Property Name="ParentGroupedProductId" Type="Int32" Nullable="false" />
+          <Property Name="VisibleIndividually" Type="Boolean" Nullable="false" />
+          <Property Name="ShortDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FullDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AdminComment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ProductTemplateId" Type="Int32" Nullable="false" />
+          <Property Name="VendorId" Type="Int32" Nullable="false" />
+          <Property Name="ShowOnHomepage" Type="Boolean" Nullable="false" />
+          <Property Name="MetaDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AllowCustomerReviews" Type="Boolean" Nullable="false" />
+          <Property Name="ApprovedRatingSum" Type="Int32" Nullable="false" />
+          <Property Name="NotApprovedRatingSum" Type="Int32" Nullable="false" />
+          <Property Name="ApprovedTotalReviews" Type="Int32" Nullable="false" />
+          <Property Name="NotApprovedTotalReviews" Type="Int32" Nullable="false" />
+          <Property Name="SubjectToAcl" Type="Boolean" Nullable="false" />
+          <Property Name="LimitedToStores" Type="Boolean" Nullable="false" />
+          <Property Name="IsGiftCard" Type="Boolean" Nullable="false" />
+          <Property Name="GiftCardTypeId" Type="Int32" Nullable="false" />
+          <Property Name="OverriddenGiftCardAmount" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="RequireOtherProducts" Type="Boolean" Nullable="false" />
+          <Property Name="AutomaticallyAddRequiredProducts" Type="Boolean" Nullable="false" />
+          <Property Name="IsDownload" Type="Boolean" Nullable="false" />
+          <Property Name="DownloadId" Type="Int32" Nullable="false" />
+          <Property Name="UnlimitedDownloads" Type="Boolean" Nullable="false" />
+          <Property Name="MaxNumberOfDownloads" Type="Int32" Nullable="false" />
+          <Property Name="DownloadExpirationDays" Type="Int32" />
+          <Property Name="DownloadActivationTypeId" Type="Int32" Nullable="false" />
+          <Property Name="HasSampleDownload" Type="Boolean" Nullable="false" />
+          <Property Name="SampleDownloadId" Type="Int32" Nullable="false" />
+          <Property Name="HasUserAgreement" Type="Boolean" Nullable="false" />
+          <Property Name="UserAgreementText" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsRecurring" Type="Boolean" Nullable="false" />
+          <Property Name="RecurringCycleLength" Type="Int32" Nullable="false" />
+          <Property Name="RecurringCyclePeriodId" Type="Int32" Nullable="false" />
+          <Property Name="RecurringTotalCycles" Type="Int32" Nullable="false" />
+          <Property Name="IsRental" Type="Boolean" Nullable="false" />
+          <Property Name="RentalPriceLength" Type="Int32" Nullable="false" />
+          <Property Name="RentalPricePeriodId" Type="Int32" Nullable="false" />
+          <Property Name="IsShipEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="IsFreeShipping" Type="Boolean" Nullable="false" />
+          <Property Name="ShipSeparately" Type="Boolean" Nullable="false" />
+          <Property Name="AdditionalShippingCharge" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="DeliveryDateId" Type="Int32" Nullable="false" />
+          <Property Name="IsTaxExempt" Type="Boolean" Nullable="false" />
+          <Property Name="TaxCategoryId" Type="Int32" Nullable="false" />
+          <Property Name="IsTelecommunicationsOrBroadcastingOrElectronicServices" Type="Boolean" Nullable="false" />
+          <Property Name="ManageInventoryMethodId" Type="Int32" Nullable="false" />
+          <Property Name="ProductAvailabilityRangeId" Type="Int32" Nullable="false" />
+          <Property Name="UseMultipleWarehouses" Type="Boolean" Nullable="false" />
+          <Property Name="WarehouseId" Type="Int32" Nullable="false" />
+          <Property Name="StockQuantity" Type="Int32" Nullable="false" />
+          <Property Name="DisplayStockAvailability" Type="Boolean" Nullable="false" />
+          <Property Name="DisplayStockQuantity" Type="Boolean" Nullable="false" />
+          <Property Name="MinStockQuantity" Type="Int32" Nullable="false" />
+          <Property Name="LowStockActivityId" Type="Int32" Nullable="false" />
+          <Property Name="NotifyAdminForQuantityBelow" Type="Int32" Nullable="false" />
+          <Property Name="BackorderModeId" Type="Int32" Nullable="false" />
+          <Property Name="AllowBackInStockSubscriptions" Type="Boolean" Nullable="false" />
+          <Property Name="OrderMinimumQuantity" Type="Int32" Nullable="false" />
+          <Property Name="OrderMaximumQuantity" Type="Int32" Nullable="false" />
+          <Property Name="AllowAddingOnlyExistingAttributeCombinations" Type="Boolean" Nullable="false" />
+          <Property Name="NotReturnable" Type="Boolean" Nullable="false" />
+          <Property Name="DisableBuyButton" Type="Boolean" Nullable="false" />
+          <Property Name="DisableWishlistButton" Type="Boolean" Nullable="false" />
+          <Property Name="AvailableForPreOrder" Type="Boolean" Nullable="false" />
+          <Property Name="PreOrderAvailabilityStartDateTimeUtc" Type="DateTime" Precision="7" />
+          <Property Name="CallForPrice" Type="Boolean" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="OldPrice" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="ProductCost" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="CustomerEntersPrice" Type="Boolean" Nullable="false" />
+          <Property Name="MinimumCustomerEnteredPrice" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="MaximumCustomerEnteredPrice" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="BasepriceEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="BasepriceAmount" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="BasepriceUnitId" Type="Int32" Nullable="false" />
+          <Property Name="BasepriceBaseAmount" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="BasepriceBaseUnitId" Type="Int32" Nullable="false" />
+          <Property Name="MarkAsNew" Type="Boolean" Nullable="false" />
+          <Property Name="MarkAsNewStartDateTimeUtc" Type="DateTime" Precision="7" />
+          <Property Name="MarkAsNewEndDateTimeUtc" Type="DateTime" Precision="7" />
+          <Property Name="HasTierPrices" Type="Boolean" Nullable="false" />
+          <Property Name="HasDiscountsApplied" Type="Boolean" Nullable="false" />
+          <Property Name="Weight" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Length" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Width" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Height" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="AvailableStartDateTimeUtc" Type="DateTime" Precision="7" />
+          <Property Name="AvailableEndDateTimeUtc" Type="DateTime" Precision="7" />
+          <Property Name="DisplayOrder" Type="Int32" Nullable="false" />
+          <Property Name="Published" Type="Boolean" Nullable="false" />
+          <Property Name="Deleted" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedOnUtc" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="UpdatedOnUtc" Type="DateTime" Nullable="false" Precision="7" />
+          <NavigationProperty Name="Luxy_Room" Relationship="Self.FK_Luxy_Room_Product" FromRole="Product" ToRole="Luxy_Room" />
+          <NavigationProperty Name="Luxy_Service" Relationship="Self.FK_Luxy_Service_Product" FromRole="Product" ToRole="Luxy_Service" />
+        </EntityType>
+        <Association Name="FK_Luxy_Booking_Luxy_Room">
+          <End Role="Luxy_Room" Type="Self.Luxy_Room" Multiplicity="1" />
+          <End Role="Luxy_Booking" Type="Self.Luxy_Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Luxy_Room">
+              <PropertyRef Name="RoomCode" />
+            </Principal>
+            <Dependent Role="Luxy_Booking">
+              <PropertyRef Name="RoomCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Luxy_BookingSchedule_Luxy_Booking">
+          <End Role="Luxy_Booking" Type="Self.Luxy_Booking" Multiplicity="1" />
+          <End Role="Luxy_BookingSchedule" Type="Self.Luxy_BookingSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Luxy_Booking">
+              <PropertyRef Name="BookingGuid" />
+            </Principal>
+            <Dependent Role="Luxy_BookingSchedule">
+              <PropertyRef Name="BookingGuid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Luxy_BookingSchedule_Luxy_DailyServiceTemplate">
+          <End Role="Luxy_DailyServiceTemplate" Type="Self.Luxy_DailyServiceTemplate" Multiplicity="0..1" />
+          <End Role="Luxy_BookingSchedule" Type="Self.Luxy_BookingSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Luxy_DailyServiceTemplate">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Luxy_BookingSchedule">
+              <PropertyRef Name="TemplateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Luxy_BookingSchedule_Luxy_Service">
+          <End Role="Luxy_Service" Type="Self.Luxy_Service" Multiplicity="1" />
+          <End Role="Luxy_BookingSchedule" Type="Self.Luxy_BookingSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Luxy_Service">
+              <PropertyRef Name="ServiceCode" />
+            </Principal>
+            <Dependent Role="Luxy_BookingSchedule">
+              <PropertyRef Name="ServiceCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Luxy_DailyServiceTemplate_Luxy_Room">
+          <End Role="Luxy_Room" Type="Self.Luxy_Room" Multiplicity="0..1" />
+          <End Role="Luxy_DailyServiceTemplate" Type="Self.Luxy_DailyServiceTemplate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Luxy_Room">
+              <PropertyRef Name="RoomCode" />
+            </Principal>
+            <Dependent Role="Luxy_DailyServiceTemplate">
+              <PropertyRef Name="RoomCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Luxy_DailyServiceTemplate_Luxy_Service">
+          <End Role="Luxy_Service" Type="Self.Luxy_Service" Multiplicity="0..1" />
+          <End Role="Luxy_DailyServiceTemplate" Type="Self.Luxy_DailyServiceTemplate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Luxy_Service">
+              <PropertyRef Name="ServiceCode" />
+            </Principal>
+            <Dependent Role="Luxy_DailyServiceTemplate">
+              <PropertyRef Name="ServiceCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Luxy_Room_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+          <End Role="Luxy_Room" Type="Self.Luxy_Room" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Luxy_Room">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Luxy_Service_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="Luxy_Service" Type="Self.Luxy_Service" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Luxy_Service">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="luxylovedbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Luxy_Booking" EntityType="Self.Luxy_Booking" />
+          <EntitySet Name="Luxy_BookingSchedule" EntityType="Self.Luxy_BookingSchedule" />
+          <EntitySet Name="Luxy_DailyServiceTemplate" EntityType="Self.Luxy_DailyServiceTemplate" />
+          <EntitySet Name="Luxy_Room" EntityType="Self.Luxy_Room" />
+          <EntitySet Name="Luxy_Service" EntityType="Self.Luxy_Service" />
+          <EntitySet Name="Products" EntityType="Self.Product" />
+          <AssociationSet Name="FK_Luxy_Booking_Luxy_Room" Association="Self.FK_Luxy_Booking_Luxy_Room">
+            <End Role="Luxy_Room" EntitySet="Luxy_Room" />
+            <End Role="Luxy_Booking" EntitySet="Luxy_Booking" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Luxy_BookingSchedule_Luxy_Booking" Association="Self.FK_Luxy_BookingSchedule_Luxy_Booking">
+            <End Role="Luxy_Booking" EntitySet="Luxy_Booking" />
+            <End Role="Luxy_BookingSchedule" EntitySet="Luxy_BookingSchedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Luxy_BookingSchedule_Luxy_DailyServiceTemplate" Association="Self.FK_Luxy_BookingSchedule_Luxy_DailyServiceTemplate">
+            <End Role="Luxy_DailyServiceTemplate" EntitySet="Luxy_DailyServiceTemplate" />
+            <End Role="Luxy_BookingSchedule" EntitySet="Luxy_BookingSchedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Luxy_BookingSchedule_Luxy_Service" Association="Self.FK_Luxy_BookingSchedule_Luxy_Service">
+            <End Role="Luxy_Service" EntitySet="Luxy_Service" />
+            <End Role="Luxy_BookingSchedule" EntitySet="Luxy_BookingSchedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Luxy_DailyServiceTemplate_Luxy_Room" Association="Self.FK_Luxy_DailyServiceTemplate_Luxy_Room">
+            <End Role="Luxy_Room" EntitySet="Luxy_Room" />
+            <End Role="Luxy_DailyServiceTemplate" EntitySet="Luxy_DailyServiceTemplate" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Luxy_DailyServiceTemplate_Luxy_Service" Association="Self.FK_Luxy_DailyServiceTemplate_Luxy_Service">
+            <End Role="Luxy_Service" EntitySet="Luxy_Service" />
+            <End Role="Luxy_DailyServiceTemplate" EntitySet="Luxy_DailyServiceTemplate" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Luxy_Room_Product" Association="Self.FK_Luxy_Room_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="Luxy_Room" EntitySet="Luxy_Room" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Luxy_Service_Product" Association="Self.FK_Luxy_Service_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="Luxy_Service" EntitySet="Luxy_Service" />
+          </AssociationSet>
+          <EntitySet Name="Customers" EntityType="luxylovedbModel.Customer" />
+        </EntityContainer>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="EmailToRevalidate" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="SystemName" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+          <Property Name="BillingAddress_Id" Type="Int32" />
+          <Property Name="ShippingAddress_Id" Type="Int32" />
+          <Property Name="CustomerGuid" Type="Guid" Nullable="false" />
+          <Property Name="AdminComment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsTaxExempt" Type="Boolean" Nullable="false" />
+          <Property Name="AffiliateId" Type="Int32" Nullable="false" />
+          <Property Name="VendorId" Type="Int32" Nullable="false" />
+          <Property Name="HasShoppingCartItems" Type="Boolean" Nullable="false" />
+          <Property Name="RequireReLogin" Type="Boolean" Nullable="false" />
+          <Property Name="FailedLoginAttempts" Type="Int32" Nullable="false" />
+          <Property Name="CannotLoginUntilDateUtc" Type="DateTime" Precision="7" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <Property Name="Deleted" Type="Boolean" Nullable="false" />
+          <Property Name="IsSystemAccount" Type="Boolean" Nullable="false" />
+          <Property Name="LastIpAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedOnUtc" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="LastLoginDateUtc" Type="DateTime" Precision="7" />
+          <Property Name="LastActivityDateUtc" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="RegisteredInStoreId" Type="Int32" Nullable="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="luxylovedbModelStoreContainer" CdmEntityContainer="luxylovedbEntities">
+          <EntitySetMapping Name="Luxy_Booking">
+            <EntityTypeMapping TypeName="luxylovedbModel.Luxy_Booking">
+              <MappingFragment StoreEntitySet="Luxy_Booking">
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="RoomType" ColumnName="RoomType" />
+                <ScalarProperty Name="Floor" ColumnName="Floor" />
+                <ScalarProperty Name="RoomNo" ColumnName="RoomNo" />
+                <ScalarProperty Name="IsVoid" ColumnName="IsVoid" />
+                <ScalarProperty Name="EndDateTime" ColumnName="EndDateTime" />
+                <ScalarProperty Name="StartDateTime" ColumnName="StartDateTime" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="RoomCode" ColumnName="RoomCode" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="BookingGuid" ColumnName="BookingGuid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Luxy_BookingSchedule">
+            <EntityTypeMapping TypeName="luxylovedbModel.Luxy_BookingSchedule">
+              <MappingFragment StoreEntitySet="Luxy_BookingSchedule">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="ServiceCode" ColumnName="ServiceCode" />
+                <ScalarProperty Name="BookingGuid" ColumnName="BookingGuid" />
+                <ScalarProperty Name="IsCompleted" ColumnName="IsCompleted" />
+                <ScalarProperty Name="ActionByUsername" ColumnName="ActionByUsername" />
+                <ScalarProperty Name="RatingCode" ColumnName="RatingCode" />
+                <ScalarProperty Name="Feedback" ColumnName="Feedback" />
+                <ScalarProperty Name="TemplateId" ColumnName="TemplateId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Luxy_DailyServiceTemplate">
+            <EntityTypeMapping TypeName="luxylovedbModel.Luxy_DailyServiceTemplate">
+              <MappingFragment StoreEntitySet="Luxy_DailyServiceTemplate">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ServiceCode" ColumnName="ServiceCode" />
+                <ScalarProperty Name="Day1" ColumnName="Day1" />
+                <ScalarProperty Name="Day2" ColumnName="Day2" />
+                <ScalarProperty Name="Day3" ColumnName="Day3" />
+                <ScalarProperty Name="TimeShot24" ColumnName="TimeShot24" />
+                <ScalarProperty Name="DurationMinutes" ColumnName="DurationMinutes" />
+                <ScalarProperty Name="RoomCode" ColumnName="RoomCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Luxy_Room">
+            <EntityTypeMapping TypeName="luxylovedbModel.Luxy_Room">
+              <MappingFragment StoreEntitySet="Luxy_Room">
+                <ScalarProperty Name="RoomNo" ColumnName="RoomNo" />
+                <ScalarProperty Name="RoomCode" ColumnName="RoomCode" />
+                <ScalarProperty Name="RoomType" ColumnName="RoomType" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Floor" ColumnName="Floor" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Luxy_Service">
+            <EntityTypeMapping TypeName="luxylovedbModel.Luxy_Service">
+              <MappingFragment StoreEntitySet="Luxy_Service">
+                <ScalarProperty Name="ServiceCode" ColumnName="ServiceCode" />
+                <ScalarProperty Name="ActionByUsername" ColumnName="ActionByUsername" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="luxylovedbModel.Product">
+              <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="MetaKeywords" ColumnName="MetaKeywords" />
+                <ScalarProperty Name="MetaTitle" ColumnName="MetaTitle" />
+                <ScalarProperty Name="Sku" ColumnName="Sku" />
+                <ScalarProperty Name="ManufacturerPartNumber" ColumnName="ManufacturerPartNumber" />
+                <ScalarProperty Name="Gtin" ColumnName="Gtin" />
+                <ScalarProperty Name="RequiredProductIds" ColumnName="RequiredProductIds" />
+                <ScalarProperty Name="AllowedQuantities" ColumnName="AllowedQuantities" />
+                <ScalarProperty Name="ProductTypeId" ColumnName="ProductTypeId" />
+                <ScalarProperty Name="ParentGroupedProductId" ColumnName="ParentGroupedProductId" />
+                <ScalarProperty Name="VisibleIndividually" ColumnName="VisibleIndividually" />
+                <ScalarProperty Name="ShortDescription" ColumnName="ShortDescription" />
+                <ScalarProperty Name="FullDescription" ColumnName="FullDescription" />
+                <ScalarProperty Name="AdminComment" ColumnName="AdminComment" />
+                <ScalarProperty Name="ProductTemplateId" ColumnName="ProductTemplateId" />
+                <ScalarProperty Name="VendorId" ColumnName="VendorId" />
+                <ScalarProperty Name="ShowOnHomepage" ColumnName="ShowOnHomepage" />
+                <ScalarProperty Name="MetaDescription" ColumnName="MetaDescription" />
+                <ScalarProperty Name="AllowCustomerReviews" ColumnName="AllowCustomerReviews" />
+                <ScalarProperty Name="ApprovedRatingSum" ColumnName="ApprovedRatingSum" />
+                <ScalarProperty Name="NotApprovedRatingSum" ColumnName="NotApprovedRatingSum" />
+                <ScalarProperty Name="ApprovedTotalReviews" ColumnName="ApprovedTotalReviews" />
+                <ScalarProperty Name="NotApprovedTotalReviews" ColumnName="NotApprovedTotalReviews" />
+                <ScalarProperty Name="SubjectToAcl" ColumnName="SubjectToAcl" />
+                <ScalarProperty Name="LimitedToStores" ColumnName="LimitedToStores" />
+                <ScalarProperty Name="IsGiftCard" ColumnName="IsGiftCard" />
+                <ScalarProperty Name="GiftCardTypeId" ColumnName="GiftCardTypeId" />
+                <ScalarProperty Name="OverriddenGiftCardAmount" ColumnName="OverriddenGiftCardAmount" />
+                <ScalarProperty Name="RequireOtherProducts" ColumnName="RequireOtherProducts" />
+                <ScalarProperty Name="AutomaticallyAddRequiredProducts" ColumnName="AutomaticallyAddRequiredProducts" />
+                <ScalarProperty Name="IsDownload" ColumnName="IsDownload" />
+                <ScalarProperty Name="DownloadId" ColumnName="DownloadId" />
+                <ScalarProperty Name="UnlimitedDownloads" ColumnName="UnlimitedDownloads" />
+                <ScalarProperty Name="MaxNumberOfDownloads" ColumnName="MaxNumberOfDownloads" />
+                <ScalarProperty Name="DownloadExpirationDays" ColumnName="DownloadExpirationDays" />
+                <ScalarProperty Name="DownloadActivationTypeId" ColumnName="DownloadActivationTypeId" />
+                <ScalarProperty Name="HasSampleDownload" ColumnName="HasSampleDownload" />
+                <ScalarProperty Name="SampleDownloadId" ColumnName="SampleDownloadId" />
+                <ScalarProperty Name="HasUserAgreement" ColumnName="HasUserAgreement" />
+                <ScalarProperty Name="UserAgreementText" ColumnName="UserAgreementText" />
+                <ScalarProperty Name="IsRecurring" ColumnName="IsRecurring" />
+                <ScalarProperty Name="RecurringCycleLength" ColumnName="RecurringCycleLength" />
+                <ScalarProperty Name="RecurringCyclePeriodId" ColumnName="RecurringCyclePeriodId" />
+                <ScalarProperty Name="RecurringTotalCycles" ColumnName="RecurringTotalCycles" />
+                <ScalarProperty Name="IsRental" ColumnName="IsRental" />
+                <ScalarProperty Name="RentalPriceLength" ColumnName="RentalPriceLength" />
+                <ScalarProperty Name="RentalPricePeriodId" ColumnName="RentalPricePeriodId" />
+                <ScalarProperty Name="IsShipEnabled" ColumnName="IsShipEnabled" />
+                <ScalarProperty Name="IsFreeShipping" ColumnName="IsFreeShipping" />
+                <ScalarProperty Name="ShipSeparately" ColumnName="ShipSeparately" />
+                <ScalarProperty Name="AdditionalShippingCharge" ColumnName="AdditionalShippingCharge" />
+                <ScalarProperty Name="DeliveryDateId" ColumnName="DeliveryDateId" />
+                <ScalarProperty Name="IsTaxExempt" ColumnName="IsTaxExempt" />
+                <ScalarProperty Name="TaxCategoryId" ColumnName="TaxCategoryId" />
+                <ScalarProperty Name="IsTelecommunicationsOrBroadcastingOrElectronicServices" ColumnName="IsTelecommunicationsOrBroadcastingOrElectronicServices" />
+                <ScalarProperty Name="ManageInventoryMethodId" ColumnName="ManageInventoryMethodId" />
+                <ScalarProperty Name="ProductAvailabilityRangeId" ColumnName="ProductAvailabilityRangeId" />
+                <ScalarProperty Name="UseMultipleWarehouses" ColumnName="UseMultipleWarehouses" />
+                <ScalarProperty Name="WarehouseId" ColumnName="WarehouseId" />
+                <ScalarProperty Name="StockQuantity" ColumnName="StockQuantity" />
+                <ScalarProperty Name="DisplayStockAvailability" ColumnName="DisplayStockAvailability" />
+                <ScalarProperty Name="DisplayStockQuantity" ColumnName="DisplayStockQuantity" />
+                <ScalarProperty Name="MinStockQuantity" ColumnName="MinStockQuantity" />
+                <ScalarProperty Name="LowStockActivityId" ColumnName="LowStockActivityId" />
+                <ScalarProperty Name="NotifyAdminForQuantityBelow" ColumnName="NotifyAdminForQuantityBelow" />
+                <ScalarProperty Name="BackorderModeId" ColumnName="BackorderModeId" />
+                <ScalarProperty Name="AllowBackInStockSubscriptions" ColumnName="AllowBackInStockSubscriptions" />
+                <ScalarProperty Name="OrderMinimumQuantity" ColumnName="OrderMinimumQuantity" />
+                <ScalarProperty Name="OrderMaximumQuantity" ColumnName="OrderMaximumQuantity" />
+                <ScalarProperty Name="AllowAddingOnlyExistingAttributeCombinations" ColumnName="AllowAddingOnlyExistingAttributeCombinations" />
+                <ScalarProperty Name="NotReturnable" ColumnName="NotReturnable" />
+                <ScalarProperty Name="DisableBuyButton" ColumnName="DisableBuyButton" />
+                <ScalarProperty Name="DisableWishlistButton" ColumnName="DisableWishlistButton" />
+                <ScalarProperty Name="AvailableForPreOrder" ColumnName="AvailableForPreOrder" />
+                <ScalarProperty Name="PreOrderAvailabilityStartDateTimeUtc" ColumnName="PreOrderAvailabilityStartDateTimeUtc" />
+                <ScalarProperty Name="CallForPrice" ColumnName="CallForPrice" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="OldPrice" ColumnName="OldPrice" />
+                <ScalarProperty Name="ProductCost" ColumnName="ProductCost" />
+                <ScalarProperty Name="CustomerEntersPrice" ColumnName="CustomerEntersPrice" />
+                <ScalarProperty Name="MinimumCustomerEnteredPrice" ColumnName="MinimumCustomerEnteredPrice" />
+                <ScalarProperty Name="MaximumCustomerEnteredPrice" ColumnName="MaximumCustomerEnteredPrice" />
+                <ScalarProperty Name="BasepriceEnabled" ColumnName="BasepriceEnabled" />
+                <ScalarProperty Name="BasepriceAmount" ColumnName="BasepriceAmount" />
+                <ScalarProperty Name="BasepriceUnitId" ColumnName="BasepriceUnitId" />
+                <ScalarProperty Name="BasepriceBaseAmount" ColumnName="BasepriceBaseAmount" />
+                <ScalarProperty Name="BasepriceBaseUnitId" ColumnName="BasepriceBaseUnitId" />
+                <ScalarProperty Name="MarkAsNew" ColumnName="MarkAsNew" />
+                <ScalarProperty Name="MarkAsNewStartDateTimeUtc" ColumnName="MarkAsNewStartDateTimeUtc" />
+                <ScalarProperty Name="MarkAsNewEndDateTimeUtc" ColumnName="MarkAsNewEndDateTimeUtc" />
+                <ScalarProperty Name="HasTierPrices" ColumnName="HasTierPrices" />
+                <ScalarProperty Name="HasDiscountsApplied" ColumnName="HasDiscountsApplied" />
+                <ScalarProperty Name="Weight" ColumnName="Weight" />
+                <ScalarProperty Name="Length" ColumnName="Length" />
+                <ScalarProperty Name="Width" ColumnName="Width" />
+                <ScalarProperty Name="Height" ColumnName="Height" />
+                <ScalarProperty Name="AvailableStartDateTimeUtc" ColumnName="AvailableStartDateTimeUtc" />
+                <ScalarProperty Name="AvailableEndDateTimeUtc" ColumnName="AvailableEndDateTimeUtc" />
+                <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
+                <ScalarProperty Name="Published" ColumnName="Published" />
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+                <ScalarProperty Name="CreatedOnUtc" ColumnName="CreatedOnUtc" />
+                <ScalarProperty Name="UpdatedOnUtc" ColumnName="UpdatedOnUtc" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="luxylovedbModel.Customer">
+              <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="RegisteredInStoreId" ColumnName="RegisteredInStoreId" />
+                <ScalarProperty Name="LastActivityDateUtc" ColumnName="LastActivityDateUtc" />
+                <ScalarProperty Name="LastLoginDateUtc" ColumnName="LastLoginDateUtc" />
+                <ScalarProperty Name="CreatedOnUtc" ColumnName="CreatedOnUtc" />
+                <ScalarProperty Name="LastIpAddress" ColumnName="LastIpAddress" />
+                <ScalarProperty Name="IsSystemAccount" ColumnName="IsSystemAccount" />
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="CannotLoginUntilDateUtc" ColumnName="CannotLoginUntilDateUtc" />
+                <ScalarProperty Name="FailedLoginAttempts" ColumnName="FailedLoginAttempts" />
+                <ScalarProperty Name="RequireReLogin" ColumnName="RequireReLogin" />
+                <ScalarProperty Name="HasShoppingCartItems" ColumnName="HasShoppingCartItems" />
+                <ScalarProperty Name="VendorId" ColumnName="VendorId" />
+                <ScalarProperty Name="AffiliateId" ColumnName="AffiliateId" />
+                <ScalarProperty Name="IsTaxExempt" ColumnName="IsTaxExempt" />
+                <ScalarProperty Name="AdminComment" ColumnName="AdminComment" />
+                <ScalarProperty Name="CustomerGuid" ColumnName="CustomerGuid" />
+                <ScalarProperty Name="ShippingAddress_Id" ColumnName="ShippingAddress_Id" />
+                <ScalarProperty Name="BillingAddress_Id" ColumnName="BillingAddress_Id" />
+                <ScalarProperty Name="SystemName" ColumnName="SystemName" />
+                <ScalarProperty Name="EmailToRevalidate" ColumnName="EmailToRevalidate" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

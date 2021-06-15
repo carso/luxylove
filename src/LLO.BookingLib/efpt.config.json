@@ -1,0 +1,60 @@
+﻿{
+   "CodeGenerationMode": 0,
+   "ContextClassName": "LuxylovedbContext",
+   "ContextNamespace": null,
+   "DefaultDacpacSchema": null,
+   "FilterSchemas": false,
+   "IncludeConnectionString": true,
+   "ModelNamespace": null,
+   "OutputContextPath": null,
+   "OutputPath": null,
+   "ProjectRootNamespace": "LLO.BookingLib",
+   "Schemas": null,
+   "SelectedHandlebarsLanguage": 0,
+   "SelectedToBeGenerated": 0,
+   "Tables": [
+      {
+         "Name": "[dbo].[Customer]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Luxy_Booking]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Luxy_BookingSchedule]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Luxy_DailyServiceTemplate]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Luxy_Room]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Luxy_Service]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Product]",
+         "ObjectType": 0
+      }
+   ],
+   "UiHint": "desktop-0o24j6n.luxylovedb.dbo",
+   "UseBoolPropertiesWithoutDefaultSql": false,
+   "UseDatabaseNames": false,
+   "UseDbContextSplitting": false,
+   "UseFluentApiOnly": true,
+   "UseHandleBars": false,
+   "UseInflector": true,
+   "UseLegacyPluralizer": false,
+   "UseNoConstructor": false,
+   "UseNoNavigations": false,
+   "UseNoObjectFilter": false,
+   "UseNodaTime": false,
+   "UseNullableReferences": false,
+   "UseSchemaFolders": false,
+   "UseSpatial": false
+}
