@@ -68,6 +68,7 @@
     Html.AppendCssFileParts("~/lib_npm/@fortawesome/fontawesome-free/css/all.min.css");
     Html.AppendCssFileParts("~/lib_npm/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css");
     Html.AppendCssFileParts("~/lib_npm/jquery-ui-dist/jquery-ui.min.css");
+    Html.AppendCssFileParts("~/lib/fullcalendar-scheduler-5.8.0/lib/main.css");
 
     //scripts
     Html.AppendScriptParts($"~/lib_npm/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js");
@@ -116,6 +117,10 @@
     Html.AppendScriptParts("~/lib_npm/admin-lte/js/adminlte.min.js");
     Html.AppendScriptParts("~/lib_npm/jquery-ui-dist/jquery-ui.min.js");
     Html.AppendScriptParts("~/lib_npm/jquery/jquery.min.js");
+    Html.AppendScriptParts("~/lib/fullcalendar-scheduler-5.8.0/lib/main.js");
+
+   
+
 
     //page title
     string adminPageTitle = !string.IsNullOrWhiteSpace(ViewBag.PageTitle) ? ViewBag.PageTitle + " / " : "";
@@ -146,6 +151,8 @@
     @Html.NopHeadCustom()
     @Html.NopCssFiles(ResourceLocation.Head, false)
     @Html.NopScripts(ResourceLocation.Head, false)
+
+
     @*Insert favicon and app icons head code*@
     @await Component.InvokeAsync("Favicon")
     @Html.NopInlineScripts(ResourceLocation.Head)
@@ -315,26 +322,27 @@
         <div class="main-footer">
             <div class="container-fluid">
                 <div class="col-md-12">
-                        <div class="row">
-                            @if (!storeInformationSettings.HidePoweredByNopCommerce)
-                            {
-                                <div class="col-md-4 col-xs-12 text-md-left text-center">
-                                    @*Would you like to remove the "Powered by nopCommerce" link in the bottom of the footer?
-                        Please find more info at https://www.nopcommerce.com/nopcommerce-copyright-removal-key*@
-                                    Powered by <a href="@(OfficialSite.Main + Utm.OnAdminFooter)" target="_blank">nopCommerce</a>
-                                </div>
-                            }else
-                            {
-                                <div class="col-md-4 col-xs-12"></div>
-                            }
-                            <div class="col-md-4 col-xs-12 text-center">
-                                @((await dateTimeHelper.ConvertToUserTimeAsync(DateTime.Now)).ToString("f", currentCulture))
+                    <div class="row">
+                        @if (!storeInformationSettings.HidePoweredByNopCommerce)
+                        {
+                            <div class="col-md-4 col-xs-12 text-md-left text-center">
+                                @*Would you like to remove the "Powered by nopCommerce" link in the bottom of the footer?
+                                    Please find more info at https://www.nopcommerce.com/nopcommerce-copyright-removal-key*@
+                                Powered by <a href="@(OfficialSite.Main + Utm.OnAdminFooter)" target="_blank">nopCommerce</a>
                             </div>
-                            <div class="col-md-4 col-xs-12 text-md-right text-center">
-                                <b>nopCommerce version @NopVersion.FULL_VERSION</b>
-                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-md-4 col-xs-12"></div>
+                        }
+                        <div class="col-md-4 col-xs-12 text-center">
+                            @((await dateTimeHelper.ConvertToUserTimeAsync(DateTime.Now)).ToString("f", currentCulture))
+                        </div>
+                        <div class="col-md-4 col-xs-12 text-md-right text-center">
+                            <b>nopCommerce version @NopVersion.FULL_VERSION</b>
                         </div>
                     </div>
+                </div>
             </div>
         </div>
     </div>

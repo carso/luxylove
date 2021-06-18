@@ -215,6 +215,22 @@ namespace Nop.Web.Areas.Admin.Controllers
             return View(model);
         }
 
+        public virtual async Task<IActionResult> List2(List<int> orderStatuses = null, List<int> paymentStatuses = null, List<int> shippingStatuses = null)
+        {
+            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageOrders))
+                return AccessDeniedView();
+
+            //prepare model
+            var model = await _orderModelFactory.PrepareOrderSearchModelAsync(new OrderSearchModel
+            {
+                OrderStatusIds = orderStatuses,
+                PaymentStatusIds = paymentStatuses,
+                ShippingStatusIds = shippingStatuses
+            });
+
+            return View(model);
+        }
+
         [HttpPost]
         public virtual async Task<IActionResult> OrderList(OrderSearchModel searchModel)
         {

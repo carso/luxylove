@@ -1,0 +1,154 @@
+﻿@model OrderSearchModel
+
+@inject IStoreService storeService
+@using Nop.Services.Stores
+
+@{
+    //page title
+    ViewBag.PageTitle = T("Admin.Orders").Text;
+    //active menu item (system name)
+    Html.SetActiveMenuItemSystemName("Calander");
+}
+
+@{
+    const string hideSearchBlockAttributeName = "OrdersPage.HideSearchBlock";
+    var hideSearchBlock = await genericAttributeService.GetAttributeAsync<bool>(await workContext.GetCurrentCustomerAsync(), hideSearchBlockAttributeName);
+}
+
+<form asp-controller="Order" asp-action="List" method="post">
+    <div class="content-header clearfix">
+        <h1 class="float-left">
+            @T("Admin.Orders")
+        </h1>
+        <div class="float-right">
+            gfdsgfd
+        </div>
+    </div>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="form-horizontal">
+                <div class="cards-group">
+                    <div id='calendar'></div>
+                </div>
+            </div>
+        </div>
+    </section>
+</form>
+
+
+<script>
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var calendarEl = document.getElementById('calendar');
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                events: [
+                    {
+                        "resourceId": "d",
+                        "title": "event 1",
+                        "start": "2021-06-1",
+                        "end": "2021-06-19"
+                    },
+                    {
+                        "resourceId": "c",
+                        "title": "event 3",
+                        "start": "2021-06-01",
+                        "end": "2021-06-19",
+                        "url" : "http://www.yahoo.com"
+                    },
+                    {
+                        "resourceId": "c",
+                        "title": "event 3454",
+                        "start": "2021-06-19",
+                        "end": "2021-06-29",
+                        "url": "http://www.yahoo.com"
+                    },
+                    {
+                        "resourceId": "f",
+                        "title": "event 4",
+                        "start": "2021-06-1T07:30:00+00:00",
+                        "end": "2021-06-18T09:30:00+00:00"
+                    },
+                    {
+                        "resourceId": "b",
+                        "title": "event 5",
+                        "start": "2021-06-18T10:00:00+00:00",
+                        "end": "2021-06-18T15:00:00+00:00"
+                    },
+                    {
+                        "resourceId": "e",
+                        "title": "event 2",
+                        "start": "2021-06-18T09:00:00+00:00",
+                        "end": "2021-06-18T14:00:00+00:00"
+                    }
+                ],
+                eventClick: function (info) {
+                    info.jsEvent.preventDefault(); // don't let the browser navigate
+
+                    if (info.event.url) {
+                        alert("dsads");
+                        window.open(info.event.url);
+                    }
+                },
+                timeZone: 'UTC',
+                initialView: 'resourceTimelineMonth',
+                aspectRatio: 1.5,
+                resourceAreaWidth: '15%',
+                headerToolbar: {
+                    left: 'prev,next',
+                    center: 'title',
+                    right: ''
+                },
+                editable: false,
+                resourceAreaHeaderContent: 'Rooms',
+                resources: [
+
+                    {
+                        id: "c",
+                        title: "Auditorium C",
+                        eventColor: "#45ad61",
+                        start: '2021-06-11',
+                        end: '2021-06-13'
+
+                    },
+                    {
+                        "id": "d",
+                        "title": "Auditorium D",
+                        "children": [
+                            {
+                                "id": "d1",
+                                "title": "Room D1"
+                            },
+                            {
+                                "id": "d2",
+                                "title": "Room D2"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "e",
+                        "title": "Auditorium E"
+                    },
+                    {
+                        id: "f",
+                        title: "Auditorium F",
+                        eventColor: "red"
+                    }
+
+
+                ]
+
+
+            });
+
+
+
+            calendar.render();
+            calendar.setOption('contentHeight', auto);
+
+        });
+
+
+
+
+</script>
