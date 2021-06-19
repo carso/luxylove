@@ -18,6 +18,13 @@ namespace LLO.BookingLib.Core
         }
     }
 
+    public class BookingModel
+    {
+        public DateTime StartDateTime { get; set; }
+
+        public DateTime EndDateTime { get; set; }
+    }
+
     public class BookingServiceProvider
     {
         LuxylovedbContext _entities;
@@ -26,6 +33,21 @@ namespace LLO.BookingLib.Core
         {
             _entities = new LuxylovedbContext();
 
+        }
+
+
+        public List<BookingModel> GetActiveBookings()
+        {
+            var bookings = _entities.LuxyBookings.Where(p => p.IsVoid == false && p.IsOpen == true);
+
+            List<BookingModel> activeBookings = new List<BookingModel>();
+            
+            foreach (var x in bookings)
+            {
+                activeBookings.Add(new BookingModel() { EndDateTime = x.EndDateTime, StartDateTime = x.StartDateTime });
+            }
+
+            return activeBookings;
         }
 
 

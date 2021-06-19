@@ -18,13 +18,15 @@ namespace LLO.BookingLib.Core
         {
             _roomService = new RoomServiceProvider();
 
+            
+
             //Ground floor
             _roomService.AddRoom(new RoomModel()
             {
                 Floor = FloorEnum.Ground,
                 RoomCode = "A2",
                 RoomType = RoomTypeEnum.PremiumQueen,
-                RoomNumber = "G1"
+                RoomNumber = "0G1"
             });
 
             _roomService.AddRoom(new RoomModel()
@@ -32,7 +34,7 @@ namespace LLO.BookingLib.Core
                 Floor = FloorEnum.Ground,
                 RoomCode = "A1",
                 RoomType = RoomTypeEnum.DeluxeRoom,
-                RoomNumber = "G2"
+                RoomNumber = "0G2"
             });
 
 

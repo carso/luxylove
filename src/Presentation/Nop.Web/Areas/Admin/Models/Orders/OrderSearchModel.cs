@@ -7,6 +7,35 @@ using Nop.Web.Framework.Models;
 
 namespace Nop.Web.Areas.Admin.Models.Orders
 {
+
+    public class CalanderResource
+    {
+        public string id { get; set; }
+        public string title { get; set; }
+
+        public string eventColor { get; set; }
+        public string end { get; set; }
+
+        public string start { get; set; }
+
+
+        public List<CalanderResource> children { get; set; }
+
+    }
+
+
+    public  class CalanderEvent
+    {
+        public string resourceId { get; set; }
+        public string title { get; set; }
+
+        public string url { get; set; }
+        public string end { get; set; }
+
+        public string start { get; set; }
+
+    }
+
     /// <summary>
     /// Represents an order search model
     /// </summary>
@@ -32,6 +61,10 @@ namespace Nop.Web.Areas.Admin.Models.Orders
         #endregion
 
         #region Properties
+
+        public string RoomsResourcesJson { get; set; }
+
+        public string RoomsEventsJson { get; set; }
 
         [NopResourceDisplayName("Admin.Orders.List.StartDate")]
         [UIHint("DateNullable")]

@@ -4,6 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -31,6 +32,8 @@ using Nop.Web.Areas.Admin.Models.Reports;
 using Nop.Web.Framework.Controllers;
 using Nop.Web.Framework.Mvc;
 using Nop.Web.Framework.Mvc.Filters;
+using LLO.BookingLib;
+using LLO.BookingLib.Core;
 
 namespace Nop.Web.Areas.Admin.Controllers
 {
@@ -220,13 +223,43 @@ namespace Nop.Web.Areas.Admin.Controllers
             if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageOrders))
                 return AccessDeniedView();
 
-            //prepare model
-            var model = await _orderModelFactory.PrepareOrderSearchModelAsync(new OrderSearchModel
+            ////prepare model
+            //var model = await _orderModelFactory.PrepareOrderSearchModelAsync(new OrderSearchModel
+            //{
+            //    OrderStatusIds = orderStatuses,
+            //    PaymentStatusIds = paymentStatuses,
+            //    ShippingStatusIds = shippingStatuses
+            //});
+
+            SetupData setupData = new SetupData();
+            setupData.Initialize();
+           
+
+            var model = new OrderSearchModel();
+
+            RoomServiceProvider roomServiceProvider = new RoomServiceProvider();
+           
+
+            List<CalanderResource> calanderResources  = new List<CalanderResource>();
+
+            foreach (var roomModel in roomServiceProvider.GetAllRoomNo())
             {
-                OrderStatusIds = orderStatuses,
-                PaymentStatusIds = paymentStatuses,
-                ShippingStatusIds = shippingStatuses
-            });
+                calanderResources.Add(new CalanderResource() { title = roomModel.RoomNumber, id = roomModel.RoomNumber });
+            }
+
+
+            foreach (var room in calanderResources)
+            {
+                room.children = new List<CalanderResource>();
+                foreach (var roomModel in roomServiceProvider.GetAllRoomByRoomNo(room.id))
+                {
+          
+                    room.children.Add(new CalanderResource() { title = roomModel.RoomName, id = roomModel.RoomCode, eventColor = "#45ad61" });
+                }
+              
+            }
+
+            model.RoomsResourcesJson = Regex.Unescape(Newtonsoft.Json.JsonConvert.SerializeObject(calanderResources));
 
             return View(model);
         }
