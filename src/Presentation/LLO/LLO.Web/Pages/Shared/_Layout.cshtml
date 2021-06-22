@@ -7,122 +7,15 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <link href="~/fullcalendar-scheduler-5.8.0/lib/main.css" rel="stylesheet" />
-  
+
     <script src="~/fullcalendar-scheduler-5.8.0/lib/main.js"></script>
-    <script>
-
-        document.addEventListener('DOMContentLoaded', function () {
-            var calendarEl = document.getElementById('calendar');
-
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                events: [
-                    {
-                        "resourceId": "d",
-                        "title": "event 1",
-                        "start": "2021-06-1",
-                        "end": "2021-06-19"
-                    },
-                    {
-                        "resourceId": "c",
-                        "title": "event 3",
-                        "start": "2021-06-01",
-                        "end": "2021-06-19",
-                        "url" : "http://www.yahoo.com"
-                    },
-                    {
-                        "resourceId": "c",
-                        "title": "event 3454",
-                        "start": "2021-06-19",
-                        "end": "2021-06-29",
-                        "url": "http://www.yahoo.com"
-                    },
-                    {
-                        "resourceId": "f",
-                        "title": "event 4",
-                        "start": "2021-06-1T07:30:00+00:00",
-                        "end": "2021-06-18T09:30:00+00:00"
-                    },
-                    {
-                        "resourceId": "b",
-                        "title": "event 5",
-                        "start": "2021-06-18T10:00:00+00:00",
-                        "end": "2021-06-18T15:00:00+00:00"
-                    },
-                    {
-                        "resourceId": "e",
-                        "title": "event 2",
-                        "start": "2021-06-18T09:00:00+00:00",
-                        "end": "2021-06-18T14:00:00+00:00"
-                    }
-                ],
-                eventClick: function (info) {
-                    info.jsEvent.preventDefault(); // don't let the browser navigate
-
-                    if (info.event.url) {
-                        alert("dsads");
-                        window.open(info.event.url);
-                    }
-                },
-                timeZone: 'UTC',
-                initialView: 'resourceTimelineMonth',
-                aspectRatio: 1.5,
-                headerToolbar: {
-                    left: 'prev,next',
-                    center: 'title',
-                    right: ''
-                },
-                editable: false,
-                resourceAreaHeaderContent: 'Rooms',
-                resources: [
-
-                    {
-                        id: "c",
-                        title: "Auditorium C",
-                        eventColor: "#45ad61",
-                        start: '2021-06-11',
-                        end: '2021-06-13'
-                        
-                    },
-                    {
-                        "id": "d",
-                        "title": "Auditorium D",
-                        "children": [
-                            {
-                                "id": "d1",
-                                "title": "Room D1"
-                            },
-                            {
-                                "id": "d2",
-                                "title": "Room D2"
-                            }
-                        ]
-                    },
-                    {
-                        "id": "e",
-                        "title": "Auditorium E"
-                    },
-                    {
-                        id: "f",
-                        title: "Auditorium F",
-                        eventColor: "red"
-                    }
 
 
-                ]
-            
+    <link href="~/css/global.css" rel="stylesheet" />
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
+    <script src="~/js/client.js"></script>
 
-            });
-
-   
-
-            calendar.render();
-
-        });
-
-   
-
-
-    </script>
 </head>
 <body>
     <header>

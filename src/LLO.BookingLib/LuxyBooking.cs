@@ -13,13 +13,13 @@ namespace LLO.BookingLib
             LuxyBookingSchedules = new HashSet<LuxyBookingSchedule>();
         }
 
+        public Guid BookingGuid { get; set; }
         public string Username { get; set; }
         public string RoomCode { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime StartDateTime { get; set; }
         public DateTime EndDateTime { get; set; }
         public bool? IsVoid { get; set; }
-        public Guid BookingGuid { get; set; }
         public string RoomNo { get; set; }
         public string Floor { get; set; }
         public string RoomType { get; set; }
@@ -27,6 +27,10 @@ namespace LLO.BookingLib
         public int ProductId { get; set; }
         public bool? IsOpen { get; set; }
         public bool IsShared { get; set; }
+        public string CustomerName { get; set; }
+        public string PhoneNumber { get; set; }
+        public decimal? DiscountPrice { get; set; }
+        public int? OrderId { get; set; }
 
         public virtual LuxyRoom RoomCodeNavigation { get; set; }
         public virtual ICollection<LuxyBookingSchedule> LuxyBookingSchedules { get; set; }

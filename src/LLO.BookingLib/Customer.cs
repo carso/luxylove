@@ -8,6 +8,11 @@ namespace LLO.BookingLib
 {
     public partial class Customer
     {
+        public Customer()
+        {
+            CustomerAddresses = new HashSet<CustomerAddress>();
+        }
+
         public int Id { get; set; }
         public string Username { get; set; }
         public string Email { get; set; }
@@ -32,5 +37,9 @@ namespace LLO.BookingLib
         public DateTime? LastLoginDateUtc { get; set; }
         public DateTime LastActivityDateUtc { get; set; }
         public int RegisteredInStoreId { get; set; }
+
+        public virtual Address BillingAddress { get; set; }
+        public virtual Address ShippingAddress { get; set; }
+        public virtual ICollection<CustomerAddress> CustomerAddresses { get; set; }
     }
 }

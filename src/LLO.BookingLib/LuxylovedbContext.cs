@@ -18,7 +18,9 @@ namespace LLO.BookingLib
         {
         }
 
+        public virtual DbSet<Address> Addresses { get; set; }
         public virtual DbSet<Customer> Customers { get; set; }
+        public virtual DbSet<CustomerAddress> CustomerAddresses { get; set; }
         public virtual DbSet<LuxyBooking> LuxyBookings { get; set; }
         public virtual DbSet<LuxyBookingSchedule> LuxyBookingSchedules { get; set; }
         public virtual DbSet<LuxyDailyServiceTemplate> LuxyDailyServiceTemplates { get; set; }
@@ -31,13 +33,22 @@ namespace LLO.BookingLib
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Data Source=DESKTOP-0O24J6N;Initial Catalog=luxylovedb;Persist Security Info=True;User ID=carso;Password=123456$$");
+                optionsBuilder.UseLazyLoadingProxies().UseSqlServer("Data Source=DESKTOP-0O24J6N;Initial Catalog=luxylovedb;Persist Security Info=True;User ID=carso;Password=123456$$");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
+
+            modelBuilder.Entity<Address>(entity =>
+            {
+                entity.ToTable("Address");
+
+                entity.HasIndex(e => e.CountryId, "IX_Address_CountryId");
+
+                entity.HasIndex(e => e.StateProvinceId, "IX_Address_StateProvinceId");
+            });
 
             modelBuilder.Entity<Customer>(entity =>
             {
@@ -68,6 +79,39 @@ namespace LLO.BookingLib
                 entity.Property(e => e.SystemName).HasMaxLength(400);
 
                 entity.Property(e => e.Username).HasMaxLength(1000);
+
+                entity.HasOne(d => d.BillingAddress)
+                    .WithMany(p => p.CustomerBillingAddresses)
+                    .HasForeignKey(d => d.BillingAddressId)
+                    .HasConstraintName("FK_Customer_BillingAddress_Id_Address_Id");
+
+                entity.HasOne(d => d.ShippingAddress)
+                    .WithMany(p => p.CustomerShippingAddresses)
+                    .HasForeignKey(d => d.ShippingAddressId)
+                    .HasConstraintName("FK_Customer_ShippingAddress_Id_Address_Id");
+            });
+
+            modelBuilder.Entity<CustomerAddress>(entity =>
+            {
+                entity.HasKey(e => new { e.AddressId, e.CustomerId });
+
+                entity.HasIndex(e => e.AddressId, "IX_CustomerAddresses_Address_Id");
+
+                entity.HasIndex(e => e.CustomerId, "IX_CustomerAddresses_Customer_Id");
+
+                entity.Property(e => e.AddressId).HasColumnName("Address_Id");
+
+                entity.Property(e => e.CustomerId).HasColumnName("Customer_Id");
+
+                entity.HasOne(d => d.Address)
+                    .WithMany(p => p.CustomerAddresses)
+                    .HasForeignKey(d => d.AddressId)
+                    .HasConstraintName("FK_CustomerAddresses_Address_Id_Address_Id");
+
+                entity.HasOne(d => d.Customer)
+                    .WithMany(p => p.CustomerAddresses)
+                    .HasForeignKey(d => d.CustomerId)
+                    .HasConstraintName("FK_CustomerAddresses_Customer_Id_Customer_Id");
             });
 
             modelBuilder.Entity<LuxyBooking>(entity =>
@@ -81,6 +125,12 @@ namespace LLO.BookingLib
                 entity.Property(e => e.CreatedDate)
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.CustomerName)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.DiscountPrice).HasColumnType("decimal(12, 0)");
 
                 entity.Property(e => e.EndDateTime).HasColumnType("datetime");
 
@@ -96,6 +146,10 @@ namespace LLO.BookingLib
                 entity.Property(e => e.IsVoid)
                     .IsRequired()
                     .HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.PhoneNumber)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.Price).HasColumnType("decimal(12, 0)");
 

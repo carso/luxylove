@@ -28,7 +28,7 @@ namespace LLO.Booking.Test
                 Floor = FloorEnum.Ground,
                 RoomCode = "A2",
                 RoomType = RoomTypeEnum.PremiumQueen,
-                RoomNumber = "G1"
+                RoomNumber = "0G1"
             });
 
             _roomService.AddRoom(new RoomModel()
@@ -36,7 +36,7 @@ namespace LLO.Booking.Test
                 Floor = FloorEnum.Ground,
                 RoomCode = "A1",
                 RoomType = RoomTypeEnum.DeluxeRoom,
-                RoomNumber = "G2"
+                RoomNumber = "0G2"
             });
 
 
@@ -146,7 +146,7 @@ namespace LLO.Booking.Test
 
             Assert.Throws<UsernameNotExistException>(() =>
 
-_bookingService.Book("C3", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, "carso.leong1@outlook.com")
+_bookingService.Book("C3", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, "carso.leong2@outlook.com")
 
 );
         }
@@ -156,15 +156,15 @@ _bookingService.Book("C3", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Pre
         [Fact, TestPriority(1)]
         public void MakeBooking_BookingAdded()
         {
-            Guid guid = _bookingService.Book("C3", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
+            Guid? guid = _bookingService.Book("C3", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
             Assert.True(guid != new Guid());
         }
 
         [Fact, TestPriority(-1)]
         public void MakeBookingDiffRoom_BookingAdded()
         {
-            Guid guid = _bookingService.Book("C3", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
-            Guid guid2 = _bookingService.Book("A2", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
+            Guid? guid = _bookingService.Book("C3", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
+            Guid? guid2 = _bookingService.Book("A2", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
             Assert.True(guid2 != new Guid());
         }
 
@@ -172,25 +172,25 @@ _bookingService.Book("C3", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Pre
         [Fact, TestPriority(2)]
         public void MakeDoubleBooking_NoBookingAdded()
         {
-            Guid guid = _bookingService.Book("C3", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
-            Guid guid2 = _bookingService.Book("C3", new DateTime(2021, 9, 11).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
-            Assert.True(guid2 == new Guid());
+            Guid? guid = _bookingService.Book("C3", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
+            Guid? guid2 = _bookingService.Book("C3", new DateTime(2021, 9, 11).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
+            Assert.Null(guid2);
         }
 
 
         [Fact, TestPriority(3)]
         public void MakeNextDayBooking_BookingAdded()
         {
-            Guid guid = _bookingService.Book("C3", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
-            Guid guid2 = _bookingService.Book("C3", new DateTime(2021, 10, 22).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
+            Guid? guid = _bookingService.Book("C3", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
+            Guid? guid2 = _bookingService.Book("C3", new DateTime(2021, 10, 22).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
             Assert.True(guid2 != new Guid());
         }
 
         [Fact, TestPriority(4)]
         public void MakeNextDayBookingOtherUser_BookingAdded()
         {
-            Guid guid = _bookingService.Book("C3", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
-            Guid guid2 = _bookingService.Book("C3", new DateTime(2021, 10, 22).AddHours(15), PackageDay.Premium, "01293445654");
+            Guid? guid = _bookingService.Book("C3", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
+            Guid? guid2 = _bookingService.Book("C3", new DateTime(2021, 10, 22).AddHours(15), PackageDay.Premium, "carso.leong1@outlook.com");
             Assert.True(guid2 != new Guid());
         }
 
@@ -198,16 +198,16 @@ _bookingService.Book("C3", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Pre
         [Fact, TestPriority(5)]
         public void MakeDoubleBookingOtherUser_NoBookingAdded()
         {
-            Guid guid = _bookingService.Book("C3", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
-            Guid guid2 = _bookingService.Book("C3", new DateTime(2021, 9, 12).AddHours(15), PackageDay.Premium, "01293445654");
+            Guid? guid = _bookingService.Book("C3", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
+            Guid? guid2 = _bookingService.Book("C3", new DateTime(2021, 9, 12).AddHours(15), PackageDay.Premium, "carso.leong1@outlook.com");
                        
-            Assert.True(guid2 == new Guid());
+            Assert.Null(guid2);
         }
 
         [Fact, TestPriority(6)]
         public void MakeFirstSharedBookingSameRoom_BookingAdded()
         {
-            Guid guid = _bookingService.Book("B2A", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
+            Guid? guid = _bookingService.Book("B2A", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
 
             Assert.True(guid != new Guid());
         }
@@ -215,8 +215,8 @@ _bookingService.Book("C3", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Pre
         [Fact, TestPriority(7)]
         public void MakeSecondSharedBookingSameRoom_BookingAdded()
         {
-            Guid guid = _bookingService.Book("B2A", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
-            Guid guid2 = _bookingService.Book("B2B", new DateTime(2021, 9, 12).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
+            Guid? guid = _bookingService.Book("B2A", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
+            Guid? guid2 = _bookingService.Book("B2B", new DateTime(2021, 9, 12).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
 
             Assert.True(guid2 != new Guid());
         }
@@ -224,19 +224,19 @@ _bookingService.Book("C3", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Pre
         [Fact, TestPriority(8)]
         public void MakeThirdSharedBookingSameRoom_NoBookingAdded()
         {
-            Guid guid = _bookingService.Book("B2A", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
-            Guid guid2 = _bookingService.Book("B2B", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
-            Guid guid3 = _bookingService.Book("B2A", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
+            Guid? guid = _bookingService.Book("B2A", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
+            Guid? guid2 = _bookingService.Book("B2B", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
+            Guid? guid3 = _bookingService.Book("B2A", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
 
-            Assert.True(guid3 == new Guid());
+            Assert.Null(guid3);
         }
 
         [Fact, TestPriority(9)]
         public void MakeThirdSharedBookingDiffDate_BookingAdded()
         {
-            Guid guid = _bookingService.Book("B2A", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
-            Guid guid2 = _bookingService.Book("B2B", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
-            Guid guid3 = _bookingService.Book("B2A", new DateTime(2021, 10, 22).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
+            Guid? guid = _bookingService.Book("B2A", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
+            Guid? guid2 = _bookingService.Book("B2B", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
+            Guid? guid3 = _bookingService.Book("B2A", new DateTime(2021, 10, 22).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
 
             Assert.True(guid3 != new Guid());
         }
@@ -244,10 +244,10 @@ _bookingService.Book("C3", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Pre
         [Fact, TestPriority(10)]
         public void MakeAllSharedBookingDiffRoom_BookingAdded()
         {
-            Guid guid = _bookingService.Book("B2A", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
-            Guid guid2 = _bookingService.Book("B2B", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
-            Guid guid3 = _bookingService.Book("B3A", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
-            Guid guid4 = _bookingService.Book("B3A", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
+            Guid? guid = _bookingService.Book("B2A", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
+            Guid? guid2 = _bookingService.Book("B2B", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
+            Guid? guid3 = _bookingService.Book("B3A", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
+            Guid? guid4 = _bookingService.Book("B3A", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
 
             Assert.True(guid4 != new Guid());
         }
@@ -255,16 +255,16 @@ _bookingService.Book("C3", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Pre
         [Fact, TestPriority(11)]
         public void MakeConvertableBookingInSharedRoom_NoBookingAdded()
         {
-            Guid guid = _bookingService.Book("B2A", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
-            Guid guid2 = _bookingService.Book("B2", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
+            Guid? guid = _bookingService.Book("B2A", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
+            Guid? guid2 = _bookingService.Book("B2", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
 
-            Assert.True(guid2 == new Guid());
+            Assert.Null(guid2);
         }
 
         [Fact, TestPriority(12)]
         public void MakeConvertableBooking_BookingAdded()
         {
-            Guid guid = _bookingService.Book("B2", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
+            Guid? guid = _bookingService.Book("B2", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
 
             Assert.True(guid != new Guid());
         }
@@ -272,17 +272,17 @@ _bookingService.Book("C3", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Pre
         [Fact, TestPriority(13)]
         public void MakeSharedRoomBookingInConvertableRoom_NoBookingAdded()
         {
-            Guid guid = _bookingService.Book("B2", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
-            Guid guid2 = _bookingService.Book("B2A", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
+            Guid? guid = _bookingService.Book("B2", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
+            Guid? guid2 = _bookingService.Book("B2A", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
 
-            Assert.True(guid2 == new Guid());
+            Assert.Null(guid2);
         }
 
         [Fact, TestPriority(14)]
         public void MakeSharedRoomBookingInConvertableRoomDiffDate_BookingAdded()
         {
-            Guid guid = _bookingService.Book("B2", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
-            Guid guid2 = _bookingService.Book("B2A", new DateTime(2021, 10, 22).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
+            Guid? guid = _bookingService.Book("B2", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
+            Guid? guid2 = _bookingService.Book("B2A", new DateTime(2021, 10, 22).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
 
             Assert.True(guid2 != new Guid());
         }
@@ -290,8 +290,8 @@ _bookingService.Book("C3", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Pre
         [Fact, TestPriority(15)]
         public void MakeConvertableBookingInSharedRoomDiffDate_BookingAdded()
         {
-            Guid guid = _bookingService.Book("B2A", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
-            Guid guid2 = _bookingService.Book("B2", new DateTime(2021, 10, 22).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
+            Guid? guid = _bookingService.Book("B2A", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
+            Guid? guid2 = _bookingService.Book("B2", new DateTime(2021, 10, 22).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
 
             Assert.True(guid2 != new Guid());
         }
@@ -299,32 +299,32 @@ _bookingService.Book("C3", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Pre
         [Fact, TestPriority(16)]
         public void MakeTwoConvertableBooking_BookingAdded()
         {
-            Guid guid = _bookingService.Book("B2", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
-            Guid guid2 = _bookingService.Book("B3", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
+            Guid? guid = _bookingService.Book("B2", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
+            Guid? guid2 = _bookingService.Book("B3", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, "carso.leong@outlook.com");
 
             Assert.True(guid2 != new Guid());
         }
 
         [Theory]
         [InlineData("carso.leong@outlook.com")]
-        [InlineData("01293445654")]
+        [InlineData("carso.leong1@outlook.com")]
         public void Simulation1(string username)
         {
-            Guid guid = _bookingService.Book("B2", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, username);
-            Guid guid2 = _bookingService.Book("B3", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, username);
-            Guid guid3 = _bookingService.Book("B2A", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, username);
-            Guid guid4 = _bookingService.Book("B3A", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, username);
-            Guid guid5 = _bookingService.Book("B2B", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, username);
-            Guid guid6 = _bookingService.Book("B3B", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, username);
-            Guid guid7 = _bookingService.Book("B3B", new DateTime(2021, 10, 22).AddHours(15), PackageDay.Premium, username);
+            Guid? guid = _bookingService.Book("B2", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, username);
+            Guid? guid2 = _bookingService.Book("B3", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, username);
+            Guid? guid3 = _bookingService.Book("B2A", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, username);
+            Guid? guid4 = _bookingService.Book("B3A", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, username);
+            Guid? guid5 = _bookingService.Book("B2B", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, username);
+            Guid? guid6 = _bookingService.Book("B3B", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, username);
+            Guid? guid7 = _bookingService.Book("B3B", new DateTime(2021, 10, 22).AddHours(15), PackageDay.Premium, username);
 
-            Assert.True(guid != new Guid()); //added
-            Assert.True(guid2 != new Guid()); //added
-            Assert.True(guid3 == new Guid()); //Not added
-            Assert.True(guid4 == new Guid()); //Not added
-            Assert.True(guid5 == new Guid()); //Not added
-            Assert.True(guid6 == new Guid()); //Not added
-            Assert.True(guid7 != new Guid()); //added
+            Assert.NotNull(guid); //added
+            Assert.NotNull(guid2); //added
+            Assert.Null(guid3); //Not added
+            Assert.Null(guid4);  //Not added
+            Assert.Null(guid5); //Not added
+            Assert.Null(guid6); //Not added
+            Assert.NotNull(guid7); //added
 
 
         }

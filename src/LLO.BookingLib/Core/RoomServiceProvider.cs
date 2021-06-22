@@ -73,7 +73,7 @@ namespace LLO.BookingLib
 
             foreach (var room in luxylovedbEntities.LuxyRooms.Where(p=>p.RoomNo == roomNo))
             {
-                roomModels.Add(new RoomModel() { RoomCode = room.RoomCode, RoomNumber = room.RoomNo, RoomName = room.Name });
+                roomModels.Add(new RoomModel() { RoomCode = room.RoomCode, RoomNumber = room.RoomNo, RoomName =   room.Name });
             }
 
             return roomModels;

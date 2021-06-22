@@ -231,8 +231,8 @@ namespace Nop.Web.Areas.Admin.Controllers
             //    ShippingStatusIds = shippingStatuses
             //});
 
-            SetupData setupData = new SetupData();
-            setupData.Initialize();
+            //SetupData setupData = new SetupData();
+            //setupData.Initialize();
            
 
             var model = new OrderSearchModel();
@@ -259,7 +259,26 @@ namespace Nop.Web.Areas.Admin.Controllers
               
             }
 
+
+            //model resources
             model.RoomsResourcesJson = Regex.Unescape(Newtonsoft.Json.JsonConvert.SerializeObject(calanderResources));
+
+
+
+            BookingServiceProvider bookingServiceProvider = new BookingServiceProvider();
+            
+            var bookings = bookingServiceProvider.GetActiveBookings();
+
+            List<CalanderEvent> calanderEvents = new List<CalanderEvent>();
+            
+ 
+            foreach(var x in bookings)
+            {
+                calanderEvents.Add(new CalanderEvent() { resourceId = x.RoomCode, end = x.EndDateTime.ToString("yyyy-MM-dd"), start = x.StartDateTime.ToString("yyyy-MM-dd"), url= "/Admin/Order/Edit/8", title = string.Format(new System.Globalization.CultureInfo("ms-MY"), "{0} | {1} | {2:C}", x.CustomerName,x.Phone, x.PricePaid )});
+            }
+
+            model.RoomsEventsJson = Regex.Unescape(Newtonsoft.Json.JsonConvert.SerializeObject(calanderEvents));
+
 
             return View(model);
         }

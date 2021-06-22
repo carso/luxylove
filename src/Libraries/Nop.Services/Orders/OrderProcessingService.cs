@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using LLO.BookingLib.Core;
 using Nop.Core;
 using Nop.Core.Domain.Catalog;
 using Nop.Core.Domain.Common;
@@ -1125,6 +1126,7 @@ namespace Nop.Services.Orders
             //order paid email notification
             if (order.OrderTotal != decimal.Zero)
             {
+                
                 //we should not send it for free ($0 total) orders?
                 //remove this "if" statement if you want to send it in this case
 
@@ -2512,6 +2514,37 @@ namespace Nop.Services.Orders
 
             order.PaymentStatusId = (int)PaymentStatus.Paid;
             order.PaidDateUtc = DateTime.UtcNow;
+
+
+            //BookingServiceProvider bookingService = new BookingServiceProvider();
+
+            //var customer = _customerService.GetCustomerByIdAsync(order.CustomerId).Result;
+            //string customerFullName = _customerService.GetCustomerFullNameAsync(customer).Result;
+            //string phoneNo = _customerService.GetCustomerAddressAsync(customer.Id, customer.BillingAddressId.Value).Result.PhoneNumber;
+
+            //Guid? guid2 = bookingService.Book("B3", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, customer.Username, order.Id, (Guid?)order.OrderGuid, customerFullName, phoneNo);
+
+            
+
+
+
+
+            List<string> roomSkus = new List<string>(new string[] { "A1", "A2", "B1" , "B2", "B2A", "B2B", "B3", "B3A", "B3B", "C1", "C2", "C3" });
+
+            var orderItems = _orderService.GetOrderItemsAsync(order.Id).Result;
+
+            foreach (var or in orderItems)
+            {
+                var product = _productService.GetProductByIdAsync(or.ProductId).Result;
+
+                if (roomSkus.Contains(product.Sku))
+                {
+                    order.OrderStatus = OrderStatus.Processing;
+                }
+            }
+
+         
+
             await _orderService.UpdateOrderAsync(order);
 
             //add a note
@@ -2519,7 +2552,7 @@ namespace Nop.Services.Orders
 
             await CheckOrderStatusAsync(order);
 
-            if (order.PaymentStatus == PaymentStatus.Paid) 
+            if (order.PaymentStatus == PaymentStatus.Paid)
                 await ProcessOrderPaidAsync(order);
         }
 

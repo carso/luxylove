@@ -23,6 +23,23 @@ namespace LLO.BookingLib.Core
         public DateTime StartDateTime { get; set; }
 
         public DateTime EndDateTime { get; set; }
+
+        public string RoomCode { get; set; }
+
+        public string RoomNo { get; set; }
+
+        public string CustomerUserName { get; set; }
+
+        public string CustomerName { get; set; }
+
+        public string Phone { get; set; }
+
+        public decimal PackagePrice { get; set; }
+
+        public decimal PricePaid { get; set; }
+
+        public int? OrderId { get; set; }
+
     }
 
     public class BookingServiceProvider
@@ -41,27 +58,32 @@ namespace LLO.BookingLib.Core
             var bookings = _entities.LuxyBookings.Where(p => p.IsVoid == false && p.IsOpen == true);
 
             List<BookingModel> activeBookings = new List<BookingModel>();
-            
+             
+
+
             foreach (var x in bookings)
             {
-                activeBookings.Add(new BookingModel() { EndDateTime = x.EndDateTime, StartDateTime = x.StartDateTime });
+                activeBookings.Add(new BookingModel() { EndDateTime = x.EndDateTime, StartDateTime = x.StartDateTime, CustomerUserName = x.Username, RoomCode = x.RoomCode, RoomNo = x.RoomNo, CustomerName = x.CustomerName, Phone = x.PhoneNumber, PackagePrice = x.Price, PricePaid = x.Price - x.DiscountPrice.Value, OrderId = x.OrderId });
             }
 
             return activeBookings;
         }
 
 
-        public Guid Book(string roomCode, DateTime startDateTime, PackageDay packageDay, string username)
+        public Guid? Book(string roomCode, DateTime startDateTime, PackageDay packageDay, string username, int? orderId = null, Guid? newBookingGuid = null, string customerfullname = null, string phoneNo = null)
         {
 
+            var customer = _entities.Customers.Where(p => p.Username == username);
 
+                      
 
-            if (!_entities.Customers.Where(p => p.Username == username).Any())
+            if (!customer.Any())
             {
                 throw new UsernameNotExistException("Username not exists");
+
             }
 
-            Guid newBookingGuid = new Guid();
+
 
             var room = _entities.LuxyRooms.Where(p => p.RoomCode == roomCode).FirstOrDefault();
 
@@ -93,11 +115,22 @@ namespace LLO.BookingLib.Core
                         }
 
 
+                        if(newBookingGuid == null)
+                        {
+                            newBookingGuid = Guid.NewGuid();
 
-                        newBookingGuid = Guid.NewGuid();
+                        }
+                       
+
+
+
                         _entities.LuxyBookings.Add(new LuxyBooking
                         {
-                            BookingGuid = newBookingGuid,
+                            OrderId = orderId,
+                            CustomerName = customerfullname,
+                            DiscountPrice = 0,
+                            PhoneNumber = phoneNo,
+                            BookingGuid = newBookingGuid.Value,
                             CreatedDate = DateTime.Now,
                             IsVoid = false,
                             Username = username,
@@ -138,10 +171,21 @@ namespace LLO.BookingLib.Core
 
                     if (booking == null)
                     {
-                        newBookingGuid = Guid.NewGuid();
+
+                        if (newBookingGuid == null)
+                        {
+                            newBookingGuid = Guid.NewGuid();
+
+                        }
+
+
                         _entities.LuxyBookings.Add(new LuxyBooking
                         {
-                            BookingGuid = newBookingGuid,
+                            OrderId = orderId,
+                            CustomerName = customerfullname,
+                            DiscountPrice = 0,
+                            PhoneNumber = phoneNo,
+                            BookingGuid = newBookingGuid.Value,
                             CreatedDate = DateTime.Now,
                             IsVoid = false,
                             Username = username,
