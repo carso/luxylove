@@ -1,5 +1,5 @@
-
-namespace Nop.Plugin.Payments.Manual
+﻿
+namespace Nop.Plugin.Payments.StripeFpx
 {
     /// <summary>
     /// Represents manual payment processor transaction mode

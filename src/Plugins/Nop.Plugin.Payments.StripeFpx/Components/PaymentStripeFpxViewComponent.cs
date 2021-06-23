@@ -4,13 +4,13 @@ using System.Linq;
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Nop.Plugin.Payments.Manual.Models;
+using Nop.Plugin.Payments.StripeFpx.Models;
 using Nop.Web.Framework.Components;
 
-namespace Nop.Plugin.Payments.Manual.Components
+namespace Nop.Plugin.Payments.StripeFpx.Components
 {
-    [ViewComponent(Name = "PaymentManual")]
-    public class PaymentManualViewComponent : NopViewComponent
+    [ViewComponent(Name = "PaymentStripeFpx")]
+    public class PaymentStripeFpxViewComponent : NopViewComponent
     {
         public IViewComponentResult Invoke()
         {
@@ -56,7 +56,7 @@ namespace Nop.Plugin.Payments.Manual.Components
                     selectedYear.Selected = true;
             }
 
-            return View("~/Plugins/Payments.Manual/Views/PaymentInfo.cshtml", model);
+            return View("~/Plugins/Payments.StripeFpx/Views/PaymentInfo.cshtml", model);
         }
     }
 }

@@ -73,6 +73,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LLO.BookingLib", "LLO.Booki
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LLO.Booking.WinService", "LLO.Booking.WinService\LLO.Booking.WinService.csproj", "{E1ACECAA-ED63-4FD2-9A87-9964C316F661}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nop.Plugin.Payments.StripeFpx", "Plugins\Nop.Plugin.Payments.StripeFpx\Nop.Plugin.Payments.StripeFpx.csproj", "{4FA1C8AE-E762-4010-90DD-2C72E880340B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -431,6 +433,18 @@ Global
 		{E1ACECAA-ED63-4FD2-9A87-9964C316F661}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{E1ACECAA-ED63-4FD2-9A87-9964C316F661}.Release|x86.ActiveCfg = Release|Any CPU
 		{E1ACECAA-ED63-4FD2-9A87-9964C316F661}.Release|x86.Build.0 = Release|Any CPU
+		{4FA1C8AE-E762-4010-90DD-2C72E880340B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4FA1C8AE-E762-4010-90DD-2C72E880340B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4FA1C8AE-E762-4010-90DD-2C72E880340B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{4FA1C8AE-E762-4010-90DD-2C72E880340B}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{4FA1C8AE-E762-4010-90DD-2C72E880340B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4FA1C8AE-E762-4010-90DD-2C72E880340B}.Debug|x86.Build.0 = Debug|Any CPU
+		{4FA1C8AE-E762-4010-90DD-2C72E880340B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4FA1C8AE-E762-4010-90DD-2C72E880340B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4FA1C8AE-E762-4010-90DD-2C72E880340B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{4FA1C8AE-E762-4010-90DD-2C72E880340B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{4FA1C8AE-E762-4010-90DD-2C72E880340B}.Release|x86.ActiveCfg = Release|Any CPU
+		{4FA1C8AE-E762-4010-90DD-2C72E880340B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -467,6 +481,7 @@ Global
 		{3716DA2D-420A-4FEA-9806-102157F3A3C4} = {E8FC6874-E230-468A-9685-4747354B92FF}
 		{01D5960D-0E73-43F7-B121-B6B47CA39F89} = {B09156FB-8291-46A2-AF37-67CE97CFB5A6}
 		{E1ACECAA-ED63-4FD2-9A87-9964C316F661} = {B09156FB-8291-46A2-AF37-67CE97CFB5A6}
+		{4FA1C8AE-E762-4010-90DD-2C72E880340B} = {7881B112-7843-4542-B1F7-F99553FB9BB7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EE72A8B2-332A-4175-9319-6726D36E9D25}

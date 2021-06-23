@@ -2,22 +2,22 @@
 using Nop.Web.Framework.Mvc.ModelBinding;
 using Nop.Web.Framework.Models;
 
-namespace Nop.Plugin.Payments.Manual.Models
+namespace Nop.Plugin.Payments.StripeFpx.Models
 {
     public record ConfigurationModel : BaseNopModel
     {
         public int ActiveStoreScopeConfiguration { get; set; }
 
-        [NopResourceDisplayName("Plugins.Payments.Manual.Fields.AdditionalFeePercentage")]
+        [NopResourceDisplayName("Plugins.Payments.StripeFpx.Fields.AdditionalFeePercentage")]
         public bool AdditionalFeePercentage { get; set; }
         public bool AdditionalFeePercentage_OverrideForStore { get; set; }
 
-        [NopResourceDisplayName("Plugins.Payments.Manual.Fields.AdditionalFee")]
+        [NopResourceDisplayName("Plugins.Payments.StripeFpx.Fields.AdditionalFee")]
         public decimal AdditionalFee { get; set; }
         public bool AdditionalFee_OverrideForStore { get; set; }
 
         public int TransactModeId { get; set; }
-        [NopResourceDisplayName("Plugins.Payments.Manual.Fields.TransactMode")]
+        [NopResourceDisplayName("Plugins.Payments.StripeFpx.Fields.TransactMode")]
         public SelectList TransactModeValues { get; set; }
         public bool TransactModeId_OverrideForStore { get; set; }
     }

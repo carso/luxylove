@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Nop.Web.Framework.Infrastructure.Extensions;
+using Stripe;
 
 namespace Nop.Web
 {
@@ -43,6 +44,7 @@ namespace Nop.Web
         /// <param name="application">Builder for configuring an application's request pipeline</param>
         public void Configure(IApplicationBuilder application)
         {
+            StripeConfiguration.ApiKey = "sk_test_VYJ3lQBgNWHVi2TX8QhsB1ju00a8PiShe5";
             application.ConfigureRequestPipeline();
             application.StartEngine();
         }

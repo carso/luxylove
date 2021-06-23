@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Nop.Web.Framework.Mvc.ModelBinding;
 using Nop.Web.Framework.Models;
 
-namespace Nop.Plugin.Payments.Manual.Models
+namespace Nop.Plugin.Payments.StripeFpx.Models
 {
     public record PaymentInfoModel : BaseNopModel
     {

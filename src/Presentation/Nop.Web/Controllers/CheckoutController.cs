@@ -25,6 +25,7 @@ using Nop.Web.Extensions;
 using Nop.Web.Factories;
 using Nop.Web.Framework.Controllers;
 using Nop.Web.Models.Checkout;
+using Stripe.Checkout;
 
 namespace Nop.Web.Controllers
 {
@@ -269,7 +270,7 @@ namespace Nop.Web.Controllers
         }
 
         [IgnoreAntiforgeryToken]
-        public virtual async Task<IActionResult> Completed(int? orderId)
+        public virtual async Task<IActionResult> Completed(int? orderId, string session_id = null)
         {
             //validation
             if (await _customerService.IsGuestAsync(await _workContext.GetCurrentCustomerAsync()) && !_orderSettings.AnonymousCheckoutAllowed)
@@ -300,8 +301,82 @@ namespace Nop.Web.Controllers
 
             //model
             var model = await _checkoutModelFactory.PrepareCheckoutCompletedModelAsync(order);
+
+
+            if (session_id == null)
+            {
+
+                var options = new SessionCreateOptions
+                {
+                    PaymentMethodTypes = new List<string>
+        {
+          "fpx", "card"
+        },
+                    LineItems = new List<SessionLineItemOptions>
+        {
+          new SessionLineItemOptions
+          {
+            PriceData = new SessionLineItemPriceDataOptions
+            {
+              UnitAmount = 2000,
+              Currency = "myr",
+              ProductData = new SessionLineItemPriceDataProductDataOptions
+              {
+                Name = "T-shirt",
+              },
+
+            },
+            Quantity = 1,
+          },
+            new SessionLineItemOptions
+          {
+            PriceData = new SessionLineItemPriceDataOptions
+            {
+              UnitAmount = 1500,
+              Currency = "myr",
+              ProductData = new SessionLineItemPriceDataProductDataOptions
+              {
+                Name = "Short",
+              },
+
+            },
+            Quantity = 10,
+          },
+        },
+                    Mode = "payment",
+                    CustomerEmail = "cibai@cx.com",
+                    SuccessUrl = "https://localhost:5001/Checkout/Completed/" + orderId + "?session_id={CHECKOUT_SESSION_ID}",
+                    CancelUrl = "https://localhost:5001/Checkout/Completed/" + orderId + "?session_id={CHECKOUT_SESSION_ID}",
+                };
+
+                var service = new SessionService();
+                Session session = service.Create(options);
+
+
+
+
+
+                model.CustomProperties.Add("sessionId", session.Id);
+
+
+            }
+            else
+            {
+                var sessionService = new SessionService();
+                Session session = sessionService.Get(session_id);
+
+                var customerService = new  Stripe.CustomerService();
+                Stripe.Customer customer = customerService.Get(session.CustomerId);
+
+                model.CustomProperties.Add("sessionId", null);
+
+            }
+
+
+
             return View(model);
         }
+     
 
         /// <summary>
         /// Get specified Address by addresId
@@ -1054,6 +1129,27 @@ namespace Nop.Web.Controllers
             return View(model);
         }
 
+
+        private int CalculateOrderAmount(Item[] items)
+        {
+            // Replace this constant with a calculation of the order's amount
+            // Calculate the order total on the server to prevent
+            // people from directly manipulating the amount on the client
+            return 12110;
+        }
+
+        public class Item
+        {
+            [JsonProperty("id")]
+            public string Id { get; set; }
+        }
+
+        public class PaymentIntentCreateRequest
+        {
+            [JsonProperty("items")]
+            public Item[] Items { get; set; }
+        }
+
         public virtual async Task<IActionResult> Confirm()
         {
             //validation
@@ -1071,10 +1167,17 @@ namespace Nop.Web.Controllers
             if (await _customerService.IsGuestAsync(await _workContext.GetCurrentCustomerAsync()) && !_orderSettings.AnonymousCheckoutAllowed)
                 return Challenge();
 
+
+      
+
+
+
             //model
             var model = await _checkoutModelFactory.PrepareConfirmOrderModelAsync(cart);
             return View(model);
         }
+
+
 
         [HttpPost, ActionName("Confirm")]
         public virtual async Task<IActionResult> ConfirmOrder()
@@ -1134,7 +1237,10 @@ namespace Nop.Web.Controllers
                         return Content(await _localizationService.GetResourceAsync("Checkout.RedirectMessage"));
                     }
 
-                    return RedirectToRoute("CheckoutCompleted", new { orderId = placeOrderResult.PlacedOrder.Id });
+
+
+
+                  return RedirectToRoute("CheckoutCompleted", new { orderId = placeOrderResult.PlacedOrder.Id });
                 }
 
                 foreach (var error in placeOrderResult.Errors)

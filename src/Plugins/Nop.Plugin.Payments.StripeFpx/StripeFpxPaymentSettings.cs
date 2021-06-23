@@ -1,11 +1,11 @@
-using Nop.Core.Configuration;
+﻿using Nop.Core.Configuration;
 
-namespace Nop.Plugin.Payments.Manual
+namespace Nop.Plugin.Payments.StripeFpx
 {
     /// <summary>
     /// Represents settings of manual payment plugin
     /// </summary>
-    public class ManualPaymentSettings : ISettings
+    public class StripeFpxPaymentSettings : ISettings
     {
         /// <summary>
         /// Gets or sets payment transaction mode

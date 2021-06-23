@@ -1,11 +1,11 @@
 ﻿{
   "Group": "Payment methods",
-  "FriendlyName": "Credit Card",
-  "SystemName": "Payments.Manual",
+  "FriendlyName": "FPX",
+  "SystemName": "Payments.StripeFpx",
   "Version": "1.55",
   "SupportedVersions": [ "4.40" ],
-  "Author": "nopCommerce team",
+  "Author": "Fridaywork",
   "DisplayOrder": 1,
-  "FileName": "Nop.Plugin.Payments.Manual.dll",
-  "Description": "This plugin enables credit card payment (stored into database)"
+  "FileName": "Nop.Plugin.Payments.StripeFpx.dll",
+  "Description": "This plugin enables FPX payment (stored into database)"
 }

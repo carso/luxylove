@@ -39,6 +39,12 @@
 
     <Content Include="Plugins\bin\placeholder.txt" CopyToPublishDirectory="PreserveNewest" />
 
+    <Content Include="Themes\LuxyLove\Views\Checkout\Completed.cshtml" />
+
+    <Content Include="Themes\LuxyLove\Views\Checkout\Confirm.cshtml" />
+
+    <Content Include="Themes\LuxyLove\Views\Checkout\PaymentInfo.cshtml" />
+
     <Content Include="Themes\LuxyLove\Views\Home\Index.cshtml" />
 
     <Content Include="Themes\LuxyLove\Views\Shared\Components\AdminHeaderLinks\Default.cshtml" />
@@ -110,6 +116,9 @@
     <None Remove="Themes\LuxyLove\Content\images\watch.png" />
     <None Remove="Themes\LuxyLove\Content\images\wishlist-button.png" />
     <None Remove="Themes\LuxyLove\preview.jpg" />
+    <None Remove="Themes\LuxyLove\Views\Checkout\Completed.cshtml" />
+    <None Remove="Themes\LuxyLove\Views\Checkout\Confirm.cshtml" />
+    <None Remove="Themes\LuxyLove\Views\Checkout\PaymentInfo.cshtml" />
     <None Remove="Themes\LuxyLove\Views\Home\Index.cshtml" />
     <None Remove="Themes\LuxyLove\Views\Shared\Components\AdminHeaderLinks\Default.cshtml" />
     <None Remove="Themes\LuxyLove\Views\Shared\Components\Footer\Default.cshtml" />
@@ -118,6 +127,10 @@
     <None Remove="Themes\LuxyLove\Views\_Root.Head.cshtml" />
 
     <None Update="Areas\Admin\sitemap.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+
+    <None Update="Plugins\Payments.StripeFpx\logo.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -138,6 +151,21 @@
   <ItemGroup>
 
     <PackageReference Include="Stripe.net" Version="39.50.0" />
+
+    <Content Update="Themes\LuxyLove\Views\Checkout\Completed.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+
+    <Content Update="Themes\LuxyLove\Views\Checkout\Confirm.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+
+    <Content Update="Themes\LuxyLove\Views\Checkout\PaymentInfo.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
 
     <Content Update="Themes\LuxyLove\Views\Home\Index.cshtml">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>

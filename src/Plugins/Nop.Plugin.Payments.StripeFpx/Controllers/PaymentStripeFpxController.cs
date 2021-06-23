@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Nop.Core;
-using Nop.Plugin.Payments.Manual.Models;
+using Nop.Plugin.Payments.StripeFpx.Models;
 using Nop.Services;
 using Nop.Services.Configuration;
 using Nop.Services.Localization;
@@ -12,12 +12,12 @@ using Nop.Web.Framework;
 using Nop.Web.Framework.Controllers;
 using Nop.Web.Framework.Mvc.Filters;
 
-namespace Nop.Plugin.Payments.Manual.Controllers
+namespace Nop.Plugin.Payments.StripeFpx.Controllers
 {
     [AuthorizeAdmin]
     [Area(AreaNames.Admin)]
     [AutoValidateAntiforgeryToken]
-    public class PaymentManualController : BasePaymentController
+    public class PaymentStripeFpxController : BasePaymentController
     {
         #region Fields
         
@@ -31,7 +31,7 @@ namespace Nop.Plugin.Payments.Manual.Controllers
 
         #region Ctor
 
-        public PaymentManualController(ILocalizationService localizationService,
+        public PaymentStripeFpxController(ILocalizationService localizationService,
             INotificationService notificationService,
             IPermissionService permissionService,
             ISettingService settingService,
@@ -55,7 +55,7 @@ namespace Nop.Plugin.Payments.Manual.Controllers
 
             //load settings for a chosen store scope
             var storeScope = await _storeContext.GetActiveStoreScopeConfigurationAsync();
-            var manualPaymentSettings = await _settingService.LoadSettingAsync<ManualPaymentSettings>(storeScope);
+            var manualPaymentSettings = await _settingService.LoadSettingAsync<StripeFpxPaymentSettings>(storeScope);
 
             var model = new ConfigurationModel
             {
@@ -72,7 +72,7 @@ namespace Nop.Plugin.Payments.Manual.Controllers
                 model.AdditionalFeePercentage_OverrideForStore = await _settingService.SettingExistsAsync(manualPaymentSettings, x => x.AdditionalFeePercentage, storeScope);
             }
 
-            return View("~/Plugins/Payments.Manual/Views/Configure.cshtml", model);
+            return View("~/Plugins/Payments.StripeFpx/Views/Configure.cshtml", model);
         }
 
         [HttpPost]
@@ -86,7 +86,7 @@ namespace Nop.Plugin.Payments.Manual.Controllers
 
             //load settings for a chosen store scope
             var storeScope = await _storeContext.GetActiveStoreScopeConfigurationAsync();
-            var manualPaymentSettings = await _settingService.LoadSettingAsync<ManualPaymentSettings>(storeScope);
+            var manualPaymentSettings = await _settingService.LoadSettingAsync<StripeFpxPaymentSettings>(storeScope);
 
             //save settings
             manualPaymentSettings.TransactMode = (TransactMode)model.TransactModeId;

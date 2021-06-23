@@ -1,10 +1,10 @@
 ﻿using System;
 using FluentValidation;
-using Nop.Plugin.Payments.Manual.Models;
+using Nop.Plugin.Payments.StripeFpx.Models;
 using Nop.Services.Localization;
 using Nop.Web.Framework.Validators;
 
-namespace Nop.Plugin.Payments.Manual.Validators
+namespace Nop.Plugin.Payments.StripeFpx.Validators
 {
     public partial class PaymentInfoValidator : BaseNopValidator<PaymentInfoModel>
     {

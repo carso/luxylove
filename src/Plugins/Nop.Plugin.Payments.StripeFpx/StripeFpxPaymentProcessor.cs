@@ -6,19 +6,19 @@ using Microsoft.AspNetCore.Http;
 using Nop.Core;
 using Nop.Core.Domain.Orders;
 using Nop.Core.Domain.Payments;
-using Nop.Plugin.Payments.Manual.Models;
-using Nop.Plugin.Payments.Manual.Validators;
+using Nop.Plugin.Payments.StripeFpx.Models;
+using Nop.Plugin.Payments.StripeFpx.Validators;
 using Nop.Services.Configuration;
 using Nop.Services.Localization;
 using Nop.Services.Payments;
 using Nop.Services.Plugins;
 
-namespace Nop.Plugin.Payments.Manual
+namespace Nop.Plugin.Payments.StripeFpx
 {
     /// <summary>
     /// Manual payment processor
     /// </summary>
-    public class ManualPaymentProcessor : BasePlugin, IPaymentMethod
+    public class StripeFpxPaymentProcessor : BasePlugin, IPaymentMethod
     {
         #region Fields
 
@@ -26,17 +26,17 @@ namespace Nop.Plugin.Payments.Manual
         private readonly IPaymentService _paymentService;
         private readonly ISettingService _settingService;
         private readonly IWebHelper _webHelper;
-        private readonly ManualPaymentSettings _manualPaymentSettings;
+        private readonly StripeFpxPaymentSettings _manualPaymentSettings;
 
         #endregion
 
         #region Ctor
 
-        public ManualPaymentProcessor(ILocalizationService localizationService,
+        public StripeFpxPaymentProcessor(ILocalizationService localizationService,
             IPaymentService paymentService,
             ISettingService settingService,
             IWebHelper webHelper,
-            ManualPaymentSettings manualPaymentSettings)
+            StripeFpxPaymentSettings manualPaymentSettings)
         {
             _localizationService = localizationService;
             _paymentService = paymentService;
@@ -274,13 +274,14 @@ namespace Nop.Plugin.Payments.Manual
                 CreditCardCvv2 = form["CardCode"]
             });
         }
+ 
 
         /// <summary>
         /// Gets a configuration page URL
         /// </summary>
         public override string GetConfigurationPageUrl()
         {
-            return $"{_webHelper.GetStoreLocation()}Admin/PaymentManual/Configure";
+            return $"{_webHelper.GetStoreLocation()}Admin/PaymentStripeFpx/Configure";
         }
 
         /// <summary>
@@ -289,7 +290,7 @@ namespace Nop.Plugin.Payments.Manual
         /// <returns>View component name</returns>
         public string GetPublicViewComponentName()
         {
-            return "PaymentManual";
+            return "PaymentStripeFpx";
         }
 
         /// <summary>
@@ -299,7 +300,7 @@ namespace Nop.Plugin.Payments.Manual
         public override async Task InstallAsync()
         {
             //settings
-            var settings = new ManualPaymentSettings
+            var settings = new StripeFpxPaymentSettings
             {
                 TransactMode = TransactMode.Pending
             };
@@ -308,14 +309,14 @@ namespace Nop.Plugin.Payments.Manual
             //locales
             await _localizationService.AddLocaleResourceAsync(new Dictionary<string, string>
             {
-                ["Plugins.Payments.Manual.Instructions"] = "This payment method stores credit card information in database (it's not sent to any third-party processor). In order to store credit card information, you must be PCI compliant.",
-                ["Plugins.Payments.Manual.Fields.AdditionalFee"] = "Additional fee",
-                ["Plugins.Payments.Manual.Fields.AdditionalFee.Hint"] = "Enter additional fee to charge your customers.",
-                ["Plugins.Payments.Manual.Fields.AdditionalFeePercentage"] = "Additional fee. Use percentage",
-                ["Plugins.Payments.Manual.Fields.AdditionalFeePercentage.Hint"] = "Determines whether to apply a percentage additional fee to the order total. If not enabled, a fixed value is used.",
-                ["Plugins.Payments.Manual.Fields.TransactMode"] = "After checkout mark payment as",
-                ["Plugins.Payments.Manual.Fields.TransactMode.Hint"] = "Specify transaction mode.",
-                ["Plugins.Payments.Manual.PaymentMethodDescription"] = "Pay by credit / debit card"
+                ["Plugins.Payments.StripeFpx.Instructions"] = "This payment method stores credit card information in database (it's not sent to any third-party processor). In order to store credit card information, you must be PCI compliant.",
+                ["Plugins.Payments.StripeFpx.Fields.AdditionalFee"] = "Additional fee",
+                ["Plugins.Payments.StripeFpx.Fields.AdditionalFee.Hint"] = "Enter additional fee to charge your customers.",
+                ["Plugins.Payments.StripeFpx.Fields.AdditionalFeePercentage"] = "Additional fee. Use percentage",
+                ["Plugins.Payments.StripeFpx.Fields.AdditionalFeePercentage.Hint"] = "Determines whether to apply a percentage additional fee to the order total. If not enabled, a fixed value is used.",
+                ["Plugins.Payments.StripeFpx.Fields.TransactMode"] = "After checkout mark payment as",
+                ["Plugins.Payments.StripeFpx.Fields.TransactMode.Hint"] = "Specify transaction mode.",
+                ["Plugins.Payments.StripeFpx.PaymentMethodDescription"] = "Pay by credit / debit card"
             });
 
             await base.InstallAsync();
@@ -328,10 +329,10 @@ namespace Nop.Plugin.Payments.Manual
         public override async Task UninstallAsync()
         {
             //settings
-            await _settingService.DeleteSettingAsync<ManualPaymentSettings>();
+            await _settingService.DeleteSettingAsync<StripeFpxPaymentSettings>();
 
             //locales
-            await _localizationService.DeleteLocaleResourcesAsync("Plugins.Payments.Manual");
+            await _localizationService.DeleteLocaleResourcesAsync("Plugins.Payments.StripeFpx");
 
             await base.UninstallAsync();
         }
@@ -346,7 +347,7 @@ namespace Nop.Plugin.Payments.Manual
         /// <returns>A task that represents the asynchronous operation</returns>
         public async Task<string> GetPaymentMethodDescriptionAsync()
         {
-            return await _localizationService.GetResourceAsync("Plugins.Payments.Manual.PaymentMethodDescription");
+            return await _localizationService.GetResourceAsync("Plugins.Payments.StripeFpx.PaymentMethodDescription");
         }
 
         #endregion
