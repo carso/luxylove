@@ -4,51 +4,160 @@
 @model Nop.Plugin.Payments.StripeFpx.Models.PaymentInfoModel
 
 
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active" id="bank-tab" data-toggle="tab" href="#bank" role="tab" aria-controls="bank" aria-selected="true">Bank In</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="stripe-tab" data-toggle="tab" href="#stripe" role="tab" aria-controls="stripe" aria-selected="false">Credit Card / FPX</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="ewallet-tab" data-toggle="tab" href="#ewallet" role="tab" aria-controls="ewallet" aria-selected="false">Touch &amp; Go</a>
+    </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="bank" role="tabpanel" aria-labelledby="bank-tab">
+        <br />
+        <br />
 
-<table width="100%" cellspacing="2" cellpadding="1" border="0">
-    <tr>
-        <td>
-            <label asp-for="CreditCardTypes">@T("Payment.SelectCreditCard"):</label>
-        </td>
-        <td>
-            <select asp-for="CreditCardType" asp-items="Model.CreditCardTypes" class="dropdownlists"></select>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <label asp-for="CardholderName">@T("Payment.CardholderName"):</label>
-        </td>
-        <td>
-            <input type="text" asp-for="CardholderName" style="width:165px;" autocomplete="off" />
-            <span asp-validation-for="CardholderName"></span>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <label asp-for="CardNumber">@T("Payment.CardNumber"):</label>
-        </td>
-        <td>
-            <input type="text" asp-for="CardNumber" style="width:165px;" autocomplete="off" maxlength="22" />
-            <span asp-validation-for="CardNumber"></span>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <label asp-for="ExpireMonth">@T("Payment.ExpirationDate"):</label>
-        </td>
-        <td>
-            <select asp-for="ExpireMonth" asp-items="Model.ExpireMonths"></select>
-            /
-            <select asp-for="ExpireYear" asp-items="Model.ExpireYears"></select>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <label asp-for="CardCode">@T("Payment.CardCode"):</label>
-        </td>
-        <td>
-            <input type="text" asp-for="CardCode" style="width:60px;" autocomplete="off" maxlength="4" />
-            <span asp-validation-for="CardCode"></span>
-        </td>
-    </tr>
-</table>
+        <table width="100%" cellspacing="2" cellpadding="1" border="0">
+            <tr>
+                <td>
+                    <label asp-for="CreditCardTypes">@T("Payment.SelectCreditCard"):</label>
+                </td>
+                <td>
+                    <select asp-for="CreditCardType" asp-items="Model.CreditCardTypes" class="dropdownlists"></select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label asp-for="CardholderName">@T("Payment.CardholderName"):</label>
+                </td>
+                <td>
+                    <input type="text" asp-for="CardholderName" style="width:165px;" autocomplete="off" />
+                    <span asp-validation-for="CardholderName"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label asp-for="CardNumber">@T("Payment.CardNumber"):</label>
+                </td>
+                <td>
+                    <input type="text" asp-for="CardNumber" style="width:165px;" autocomplete="off" maxlength="22" />
+                    <span asp-validation-for="CardNumber"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label asp-for="ExpireMonth">@T("Payment.ExpirationDate"):</label>
+                </td>
+                <td>
+                    <select asp-for="ExpireMonth" asp-items="Model.ExpireMonths"></select>
+                    /
+                    <select asp-for="ExpireYear" asp-items="Model.ExpireYears"></select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label asp-for="CardCode">@T("Payment.CardCode"):</label>
+                </td>
+                <td>
+                    <input type="text" asp-for="CardCode" style="width:60px;" autocomplete="off" maxlength="4" />
+                    <span asp-validation-for="CardCode"></span>
+                </td>
+            </tr>
+        </table>
+
+
+
+
+    </div>
+    <div class="tab-pane fade" id="stripe" role="tabpanel" aria-labelledby="stripe-tab">
+        <br />
+        <br />
+        <table width="100%" cellpadding="20" cellspacing="20" style="text-align:center">
+            <tr>
+                <td style="padding:20px">
+                    <img src="~/images/payments/creditcard.png" width="400" />
+                </td>
+                <td style="padding:20px">
+                    <img style="padding:20px" src="~/images/payments/fpx.jpg" width="400" />
+                </td>
+
+            </tr>
+            <tr>
+                <td align="center" style="text-align:center">
+                    <br />
+                    <br />
+
+                    <h2>@T("Payment.SelectPaymentOption"):</h2>
+                    <h2>
+                        <select asp-for="CreditCardType" asp-items="Model.PaymentOptions" class="dropdownlists"></select>
+                    </h2>
+
+                </td>
+            </tr>
+        </table>
+        <br />
+
+    </div>
+    <div class="tab-pane fade" id="ewallet" role="tabpanel" aria-labelledby="ewallet-tab">
+        <br />
+        <br />
+        <table width="100%" cellpadding="20" cellspacing="20" style="text-align:center">
+            <tr>
+                <td style="text-align:center">
+                    <img style="padding:20px" src="~/images/payments/tng.jpg" width="700" />
+                </td>
+
+
+            </tr>
+            <tr>
+                <td align="center" style="text-align:center">
+                    <br />
+                    <br />
+
+                    <h4>@T("Payment.SelectEWallet")</h4>
+                    <h2>
+                        <select asp-for="CreditCardType" asp-items="Model.EWallet" class="dropdownlists"></select>
+                    </h2>
+
+                </td>
+            </tr>
+        </table>
+        <br />
+
+
+
+    </div>
+</div>
+
+
+
+
+<script asp-location="Footer">
+
+    $(document).ready(function () {
+
+        $('#myTab a').on('click', function (e) {
+            e.preventDefault()
+            $(this).tab('show');
+
+            if ($(this).attr('id') == 'ewallet-tab') {
+                $(".dropdownlists").val("tng").change();
+            } else {
+                if ($(this).attr('id') == 'bank-tab') {
+                    $(".dropdownlists").val("bankin").change();
+                } else {
+                    $(".dropdownlists").val("-1").change();
+                }
+
+
+
+               
+            }
+        });
+
+
+    });
+</script>

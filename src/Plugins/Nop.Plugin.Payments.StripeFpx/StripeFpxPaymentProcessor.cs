@@ -235,23 +235,7 @@ namespace Nop.Plugin.Payments.StripeFpx
         /// </returns>
         public Task<IList<string>> ValidatePaymentFormAsync(IFormCollection form)
         {
-            var warnings = new List<string>();
-
-            //validate
-            var validator = new PaymentInfoValidator(_localizationService);
-            var model = new PaymentInfoModel
-            {
-                CardholderName = form["CardholderName"],
-                CardNumber = form["CardNumber"],
-                CardCode = form["CardCode"],
-                ExpireMonth = form["ExpireMonth"],
-                ExpireYear = form["ExpireYear"]
-            };
-            var validationResult = validator.Validate(model);
-            if (!validationResult.IsValid)
-                warnings.AddRange(validationResult.Errors.Select(error => error.ErrorMessage));
-
-            return Task.FromResult<IList<string>>(warnings);
+            return Task.FromResult<IList<string>>(new List<string>());
         }
 
         /// <summary>

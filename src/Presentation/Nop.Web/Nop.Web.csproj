@@ -39,6 +39,10 @@
 
     <Content Include="Plugins\bin\placeholder.txt" CopyToPublishDirectory="PreserveNewest" />
 
+    <Content Include="Plugins\Payments.StripeFpx\logo.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+
     <Content Include="Themes\LuxyLove\Views\Checkout\Completed.cshtml" />
 
     <Content Include="Themes\LuxyLove\Views\Checkout\Confirm.cshtml" />
@@ -63,6 +67,11 @@
 
     <!-- We copy the \Logs directory -->
     <Content Include="Logs\**" CopyToPublishDirectory="PreserveNewest" />
+    <None Remove="Plugins\Payments.StripeFpx\creditcard.png" />
+    <None Remove="Plugins\Payments.StripeFpx\fpx.JPG" />
+    <None Remove="wwwroot\images\payments\creditcard.png" />
+    <None Remove="wwwroot\images\payments\fpx.JPG" />
+    <None Remove="Plugins\Payments.StripeFpx\logo.jpg" />
     <None Remove="Themes\LuxyLove\Content\css\print.css" />
     <None Remove="Themes\LuxyLove\Content\css\styles.css" />
     <None Remove="Themes\LuxyLove\Content\css\styles.rtl.css" />
@@ -129,10 +138,6 @@
     <None Update="Areas\Admin\sitemap.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-
-    <None Update="Plugins\Payments.StripeFpx\logo.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
   <ItemGroup>
@@ -142,10 +147,6 @@
     in order to avoid the "Duplicate dll" error during publication. 
     We can also use “ExcludeConfigFilesFromBuildOutput” according to https://github.com/aspnet/AspNetCore/issues/14017 -->
     <Content Update="**\*.config;**\*.json" CopyToOutputDirectory="Never" CopyToPublishDirectory="PreserveNewest" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Plugins\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -190,6 +191,12 @@
     <Content Update="Themes\LuxyLove\Views\Shared\_Root.Head.cshtml">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\images\payments\creditcard.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\images\payments\fpx.JPG">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
 
   </ItemGroup>

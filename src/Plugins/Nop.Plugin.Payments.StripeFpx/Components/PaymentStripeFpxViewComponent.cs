@@ -18,12 +18,25 @@ namespace Nop.Plugin.Payments.StripeFpx.Components
             {
                 CreditCardTypes = new List<SelectListItem>
                 {
-                    new SelectListItem { Text = "Visa", Value = "visa" },
-                    new SelectListItem { Text = "Master card", Value = "MasterCard" },
-                    new SelectListItem { Text = "Discover", Value = "Discover" },
-                    new SelectListItem { Text = "Amex", Value = "Amex" },
+                    new SelectListItem { Text = "Bank In", Value = "bankin" }
+                },
+                PaymentOptions = new List<SelectListItem>
+                {
+                    new SelectListItem { Text = "Please Select", Value = "-1" },
+                    new SelectListItem { Text = "Credit Card", Value = "card" },
+                    new SelectListItem { Text = "FPX", Value = "fpx" }
+            
+                },
+                EWallet = new List<SelectListItem>
+                {
+                    new SelectListItem { Text = "Touch & Go", Value = "tng" }
                 }
+
             };
+
+                 
+            
+
 
             //years
             for (var i = 0; i < 15; i++)
