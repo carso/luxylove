@@ -250,12 +250,7 @@ namespace Nop.Plugin.Payments.StripeFpx
         {
             return Task.FromResult(new ProcessPaymentRequest
             {
-                CreditCardType = form["CreditCardType"],
-                CreditCardName = form["CardholderName"],
-                CreditCardNumber = form["CardNumber"],
-                CreditCardExpireMonth = int.Parse(form["ExpireMonth"]),
-                CreditCardExpireYear = int.Parse(form["ExpireYear"]),
-                CreditCardCvv2 = form["CardCode"]
+                CreditCardType = form["CreditCardType"]     
             });
         }
  

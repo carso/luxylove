@@ -574,12 +574,21 @@ namespace Nop.Web.Factories
             if (order == null)
                 throw new ArgumentNullException(nameof(order));
 
-            var model = new CheckoutCompletedModel
+
+
+            var billingCustomer = _customerService.GetCustomerBillingAddressAsync(_customerService.GetCustomerByIdAsync(order.CustomerId).Result).Result;
+
+          
+
+        var model = new CheckoutCompletedModel
             {
                 OrderId = order.Id,
                 OnePageCheckoutEnabled = _orderSettings.OnePageCheckoutEnabled,
-                CustomOrderNumber = order.CustomOrderNumber
-            };
+                CustomOrderNumber = order.CustomOrderNumber,
+                 CardType = order.CardType,
+                  CustomerEmail = billingCustomer.Email
+
+        };
 
             return Task.FromResult(model);
         }

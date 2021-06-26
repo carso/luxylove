@@ -26,13 +26,14 @@ namespace LLO.BookingLib
         public virtual DbSet<LuxyDailyServiceTemplate> LuxyDailyServiceTemplates { get; set; }
         public virtual DbSet<LuxyRoom> LuxyRooms { get; set; }
         public virtual DbSet<LuxyService> LuxyServices { get; set; }
+        public virtual DbSet<Order> Orders { get; set; }
+        public virtual DbSet<OrderItem> OrderItems { get; set; }
         public virtual DbSet<Product> Products { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
                 optionsBuilder.UseLazyLoadingProxies().UseSqlServer("Data Source=DESKTOP-0O24J6N;Initial Catalog=luxylovedb;Persist Security Info=True;User ID=carso;Password=123456$$");
             }
         }
@@ -175,6 +176,11 @@ namespace LLO.BookingLib
                     .HasMaxLength(100)
                     .IsUnicode(false);
 
+                entity.HasOne(d => d.Order)
+                    .WithMany(p => p.LuxyBookings)
+                    .HasForeignKey(d => d.OrderId)
+                    .HasConstraintName("FK_Luxy_Booking_Order");
+
                 entity.HasOne(d => d.RoomCodeNavigation)
                     .WithMany(p => p.LuxyBookings)
                     .HasForeignKey(d => d.RoomCode)
@@ -309,6 +315,106 @@ namespace LLO.BookingLib
                     .HasForeignKey(d => d.ProductId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Luxy_Service_Product");
+            });
+
+            modelBuilder.Entity<Order>(entity =>
+            {
+                entity.ToTable("Order");
+
+                entity.HasIndex(e => e.BillingAddressId, "IX_Order_BillingAddressId");
+
+                entity.HasIndex(e => e.CreatedOnUtc, "IX_Order_CreatedOnUtc");
+
+                entity.HasIndex(e => e.CustomerId, "IX_Order_CustomerId");
+
+                entity.HasIndex(e => e.PickupAddressId, "IX_Order_PickupAddressId");
+
+                entity.HasIndex(e => e.ShippingAddressId, "IX_Order_ShippingAddressId");
+
+                entity.Property(e => e.CurrencyRate).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.CustomOrderNumber).IsRequired();
+
+                entity.Property(e => e.OrderDiscount).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.OrderShippingExclTax).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.OrderShippingInclTax).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.OrderSubTotalDiscountExclTax).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.OrderSubTotalDiscountInclTax).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.OrderSubtotalExclTax).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.OrderSubtotalInclTax).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.OrderTax).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.OrderTotal).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.PaymentMethodAdditionalFeeExclTax).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.PaymentMethodAdditionalFeeInclTax).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.RefundedAmount).HasColumnType("decimal(18, 4)");
+
+                entity.HasOne(d => d.BillingAddress)
+                    .WithMany(p => p.OrderBillingAddresses)
+                    .HasForeignKey(d => d.BillingAddressId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Order_BillingAddressId_Address_Id");
+
+                entity.HasOne(d => d.Customer)
+                    .WithMany(p => p.Orders)
+                    .HasForeignKey(d => d.CustomerId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Order_CustomerId_Customer_Id");
+
+                entity.HasOne(d => d.PickupAddress)
+                    .WithMany(p => p.OrderPickupAddresses)
+                    .HasForeignKey(d => d.PickupAddressId)
+                    .HasConstraintName("FK_Order_PickupAddressId_Address_Id");
+
+                entity.HasOne(d => d.ShippingAddress)
+                    .WithMany(p => p.OrderShippingAddresses)
+                    .HasForeignKey(d => d.ShippingAddressId)
+                    .HasConstraintName("FK_Order_ShippingAddressId_Address_Id");
+            });
+
+            modelBuilder.Entity<OrderItem>(entity =>
+            {
+                entity.ToTable("OrderItem");
+
+                entity.HasIndex(e => e.OrderId, "IX_OrderItem_OrderId");
+
+                entity.HasIndex(e => e.ProductId, "IX_OrderItem_ProductId");
+
+                entity.Property(e => e.DiscountAmountExclTax).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.DiscountAmountInclTax).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.ItemWeight).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.OriginalProductCost).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.PriceExclTax).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.PriceInclTax).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.UnitPriceExclTax).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.UnitPriceInclTax).HasColumnType("decimal(18, 4)");
+
+                entity.HasOne(d => d.Order)
+                    .WithMany(p => p.OrderItems)
+                    .HasForeignKey(d => d.OrderId)
+                    .HasConstraintName("FK_OrderItem_OrderId_Order_Id");
+
+                entity.HasOne(d => d.Product)
+                    .WithMany(p => p.OrderItems)
+                    .HasForeignKey(d => d.ProductId)
+                    .HasConstraintName("FK_OrderItem_ProductId_Product_Id");
             });
 
             modelBuilder.Entity<Product>(entity =>

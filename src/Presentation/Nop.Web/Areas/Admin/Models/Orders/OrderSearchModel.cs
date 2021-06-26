@@ -17,7 +17,7 @@ namespace Nop.Web.Areas.Admin.Models.Orders
         public string end { get; set; }
 
         public string start { get; set; }
-
+        public string url { get; set; }
 
         public List<CalanderResource> children { get; set; }
 

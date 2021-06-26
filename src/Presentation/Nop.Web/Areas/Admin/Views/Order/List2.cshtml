@@ -5,7 +5,7 @@
 
 @{
     //page title
-    ViewBag.PageTitle = T("Admin.Orders").Text;
+    ViewBag.PageTitle = T("Admin.RoomBooking").Text;
     //active menu item (system name)
     Html.SetActiveMenuItemSystemName("Calander");
 }
@@ -18,10 +18,10 @@
 <form asp-controller="Order" asp-action="List" method="post">
     <div class="content-header clearfix">
         <h1 class="float-left">
-            @T("Admin.Orders")
+            @T("Admin.RoomBooking")
         </h1>
         <div class="float-right">
-            gfdsgfd
+          <a href="/packages">Check Room Availability</a>
         </div>
     </div>
     <section class="content">

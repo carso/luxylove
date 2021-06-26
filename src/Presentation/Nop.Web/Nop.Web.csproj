@@ -51,6 +51,8 @@
 
     <Content Include="Themes\LuxyLove\Views\Home\Index.cshtml" />
 
+    <Content Include="Themes\LuxyLove\Views\Product\ProductTemplate.Simple.cshtml" />
+
     <Content Include="Themes\LuxyLove\Views\Shared\Components\AdminHeaderLinks\Default.cshtml" />
 
     <Content Include="Themes\LuxyLove\Views\Shared\Components\Footer\Default.cshtml" />
@@ -69,6 +71,7 @@
     <Content Include="Logs\**" CopyToPublishDirectory="PreserveNewest" />
     <None Remove="Plugins\Payments.StripeFpx\creditcard.png" />
     <None Remove="Plugins\Payments.StripeFpx\fpx.JPG" />
+    <None Remove="Themes\LuxyLove\Views\Product\ProductTemplate.Simple.cshtml" />
     <None Remove="wwwroot\images\payments\creditcard.png" />
     <None Remove="wwwroot\images\payments\fpx.JPG" />
     <None Remove="Plugins\Payments.StripeFpx\logo.jpg" />
@@ -134,6 +137,89 @@
     <None Remove="Themes\LuxyLove\Views\Shared\Components\NewsletterBox\Default.cshtml" />
     <None Remove="Themes\LuxyLove\Views\Shared\_Root.cshtml" />
     <None Remove="Themes\LuxyLove\Views\_Root.Head.cshtml" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\examples\js\theme-chooser.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\examples\php\get-events.php" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\examples\php\get-time-zones.php" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\examples\php\utils.php" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales-all.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales-all.min.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\af.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\ar-dz.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\ar-kw.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\ar-ly.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\ar-ma.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\ar-sa.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\ar-tn.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\ar.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\az.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\bg.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\bn.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\bs.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\ca.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\cs.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\cy.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\da.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\de-at.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\de.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\el.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\en-au.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\en-gb.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\en-nz.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\eo.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\es-us.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\es.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\et.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\eu.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\fa.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\fi.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\fr-ca.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\fr-ch.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\fr.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\gl.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\he.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\hi.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\hr.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\hu.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\hy-am.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\id.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\is.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\it.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\ja.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\ka.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\kk.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\ko.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\lb.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\lt.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\lv.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\mk.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\ms.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\nb.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\ne.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\nl.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\nn.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\pl.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\pt-br.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\pt.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\ro.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\ru.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\sk.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\sl.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\sq.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\sr-cyrl.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\sr.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\sv.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\ta-in.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\th.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\tr.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\ug.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\uk.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\uz.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\vi.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\zh-cn.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\locales\zh-tw.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\main.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\lib\main.min.js" />
+    <None Include="wwwroot\lib\fullcalendar-5.8.0\README.md" />
 
     <None Update="Areas\Admin\sitemap.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -150,6 +236,8 @@
   </ItemGroup>
 
   <ItemGroup>
+
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="5.0.7" />
 
     <PackageReference Include="Stripe.net" Version="39.50.0" />
 
@@ -169,6 +257,11 @@
     </Content>
 
     <Content Update="Themes\LuxyLove\Views\Home\Index.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+
+    <Content Update="Themes\LuxyLove\Views\Product\ProductTemplate.Simple.cshtml">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>

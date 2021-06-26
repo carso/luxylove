@@ -1,5 +1,6 @@
 ﻿using System;
 using Xunit;
+using LLO.BookingLib.Core;
 using LLO.BookingLib;
 
 namespace LLO.Booking.Test

@@ -528,7 +528,7 @@ namespace Nop.Web.Areas.Admin.Factories
             if (order.AllowStoringCreditCardNumber)
             {
                 //card type
-                model.CardType = _encryptionService.DecryptText(order.CardType);
+                model.CardType = order.CardType;
                 //cardholder name
                 model.CardName = _encryptionService.DecryptText(order.CardName);
                 //card number

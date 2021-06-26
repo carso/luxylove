@@ -13,6 +13,9 @@ namespace LLO.BookingLib
             CustomerAddresses = new HashSet<CustomerAddress>();
             CustomerBillingAddresses = new HashSet<Customer>();
             CustomerShippingAddresses = new HashSet<Customer>();
+            OrderBillingAddresses = new HashSet<Order>();
+            OrderPickupAddresses = new HashSet<Order>();
+            OrderShippingAddresses = new HashSet<Order>();
         }
 
         public int Id { get; set; }
@@ -35,5 +38,8 @@ namespace LLO.BookingLib
         public virtual ICollection<CustomerAddress> CustomerAddresses { get; set; }
         public virtual ICollection<Customer> CustomerBillingAddresses { get; set; }
         public virtual ICollection<Customer> CustomerShippingAddresses { get; set; }
+        public virtual ICollection<Order> OrderBillingAddresses { get; set; }
+        public virtual ICollection<Order> OrderPickupAddresses { get; set; }
+        public virtual ICollection<Order> OrderShippingAddresses { get; set; }
     }
 }

@@ -32,6 +32,7 @@ namespace LLO.BookingLib
         public decimal? DiscountPrice { get; set; }
         public int? OrderId { get; set; }
 
+        public virtual Order Order { get; set; }
         public virtual LuxyRoom RoomCodeNavigation { get; set; }
         public virtual ICollection<LuxyBookingSchedule> LuxyBookingSchedules { get; set; }
     }

@@ -392,6 +392,42 @@ namespace Nop.Services.Orders
             });
         }
 
+        protected virtual async Task AddOrderNoteForCustomerAsync(Order order, string note)
+        {
+            await _orderService.InsertOrderNoteAsync(new OrderNote
+            {
+                OrderId = order.Id,
+                Note = note,
+                DisplayToCustomer = true,
+                CreatedOnUtc = DateTime.UtcNow
+            });
+        }
+
+
+        protected virtual async Task<BookingModel>  PrepareRoomBookingModelAsync(int orderId)
+        {
+
+            BookingModel bookingModel = new BookingModel();
+
+            BookingServiceProvider bookingService = new BookingServiceProvider();
+
+            if (bookingService.CanBook(orderId))
+            {
+                bookingModel = bookingService.Book(orderId);
+
+
+                if (bookingModel == null)
+                {
+                    throw new NopException("Room Booking failed or not allowed. Please make sure no double room booking.");
+                }
+
+
+            }
+
+            return bookingModel;
+        }
+
+
         /// <summary>
         /// Prepare details to place an order. It also sets some properties to "processPaymentRequest"
         /// </summary>
@@ -794,7 +830,7 @@ namespace Nop.Services.Orders
                 AffiliateId = details.AffiliateId,
                 OrderStatus = OrderStatus.Pending,
                 AllowStoringCreditCardNumber = processPaymentResult.AllowStoringCreditCardNumber,
-                CardType = processPaymentResult.AllowStoringCreditCardNumber ? _encryptionService.EncryptText(processPaymentRequest.CreditCardType) : string.Empty,
+                CardType = processPaymentResult.AllowStoringCreditCardNumber ? processPaymentRequest.CreditCardType : string.Empty,
                 CardName = processPaymentResult.AllowStoringCreditCardNumber ? _encryptionService.EncryptText(processPaymentRequest.CreditCardName) : string.Empty,
                 CardNumber = processPaymentResult.AllowStoringCreditCardNumber ? _encryptionService.EncryptText(processPaymentRequest.CreditCardNumber) : string.Empty,
                 MaskedCreditCardNumber = _encryptionService.EncryptText(_paymentService.GetMaskedCreditCardNumber(processPaymentRequest.CreditCardNumber)),
@@ -1877,7 +1913,7 @@ namespace Nop.Services.Orders
                     //Old credit card info
                     if (details.InitialOrder.AllowStoringCreditCardNumber)
                     {
-                        processPaymentRequest.CreditCardType = _encryptionService.DecryptText(details.InitialOrder.CardType);
+                        processPaymentRequest.CreditCardType =details.InitialOrder.CardType;
                         processPaymentRequest.CreditCardName = _encryptionService.DecryptText(details.InitialOrder.CardName);
                         processPaymentRequest.CreditCardNumber = _encryptionService.DecryptText(details.InitialOrder.CardNumber);
                         processPaymentRequest.CreditCardCvv2 = _encryptionService.DecryptText(details.InitialOrder.CardCvv2);
@@ -2295,6 +2331,19 @@ namespace Nop.Services.Orders
             if (!CanCancelOrder(order))
                 throw new NopException("Cannot do cancel for order.");
 
+            BookingServiceProvider bookingServiceProvider = new BookingServiceProvider();
+
+            Guid? roomBookingGuid = bookingServiceProvider.GetcancellationBookingGuid(order.Id);
+           
+            if (roomBookingGuid.HasValue)
+            {
+                bookingServiceProvider.VoidBooking(roomBookingGuid.Value);
+
+                await AddOrderNoteAsync(order, "Room Booking has been cancelled Ref ID:" + roomBookingGuid.ToString());
+            }
+
+          
+
             //cancel order
             await SetOrderStatusAsync(order, OrderStatus.Cancelled, notifyCustomer);
 
@@ -2512,49 +2561,51 @@ namespace Nop.Services.Orders
             if (!CanMarkOrderAsPaid(order))
                 throw new NopException("You can't mark this order as paid");
 
-            order.PaymentStatusId = (int)PaymentStatus.Paid;
-            order.PaidDateUtc = DateTime.UtcNow;
+                      
 
+           BookingModel bookingModel =   await PrepareRoomBookingModelAsync(order.Id);
 
-            //BookingServiceProvider bookingService = new BookingServiceProvider();
-
-            //var customer = _customerService.GetCustomerByIdAsync(order.CustomerId).Result;
-            //string customerFullName = _customerService.GetCustomerFullNameAsync(customer).Result;
-            //string phoneNo = _customerService.GetCustomerAddressAsync(customer.Id, customer.BillingAddressId.Value).Result.PhoneNumber;
-
-            //Guid? guid2 = bookingService.Book("B3", new DateTime(2021, 9, 9).AddHours(15), PackageDay.Premium, customer.Username, order.Id, (Guid?)order.OrderGuid, customerFullName, phoneNo);
-
-            
-
-
-
-
-            List<string> roomSkus = new List<string>(new string[] { "A1", "A2", "B1" , "B2", "B2A", "B2B", "B3", "B3A", "B3B", "C1", "C2", "C3" });
-
-            var orderItems = _orderService.GetOrderItemsAsync(order.Id).Result;
-
-            foreach (var or in orderItems)
+            if(bookingModel != null)
             {
-                var product = _productService.GetProductByIdAsync(or.ProductId).Result;
 
-                if (roomSkus.Contains(product.Sku))
-                {
-                    order.OrderStatus = OrderStatus.Processing;
-                }
+                order.PaymentStatusId = (int)PaymentStatus.Paid;
+                order.PaidDateUtc = DateTime.UtcNow;
+
+                order.OrderStatus = OrderStatus.Complete;
+
+                await AddOrderNoteForCustomerAsync(order,  string.Format( new CultureInfo("ms-MY"), "Book Room No: {0}. Floor {1}. Room Type: {2}. Check in: {3}. Check Out: {4} ", bookingModel.RoomNo, bookingModel.Floor, bookingModel.RoomType, bookingModel.StartDateTime, bookingModel.EndDateTime));
+
+                await _orderService.UpdateOrderAsync(order);
+
+                //add a note
+                await AddOrderNoteAsync(order, "Order has been marked as paid");
+
+                await CheckOrderStatusAsync(order);
+
+                if (order.PaymentStatus == PaymentStatus.Paid)
+                    await ProcessOrderPaidAsync(order);
+            }
+            else
+            {
+                order.PaymentStatusId = (int)PaymentStatus.Paid;
+                order.PaidDateUtc = DateTime.UtcNow;
+
+                await _orderService.UpdateOrderAsync(order);
+
+                //add a note
+                await AddOrderNoteAsync(order, "Order has been marked as paid");
+
+                await CheckOrderStatusAsync(order);
+
+                if (order.PaymentStatus == PaymentStatus.Paid)
+                    await ProcessOrderPaidAsync(order);
+
             }
 
-         
 
-            await _orderService.UpdateOrderAsync(order);
-
-            //add a note
-            await AddOrderNoteAsync(order, "Order has been marked as paid");
-
-            await CheckOrderStatusAsync(order);
-
-            if (order.PaymentStatus == PaymentStatus.Paid)
-                await ProcessOrderPaidAsync(order);
+     
         }
+          
 
         /// <summary>
         /// Gets a value indicating whether refund from admin panel is allowed

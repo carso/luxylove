@@ -11,6 +11,22 @@ using Nop.Web.Models.ShoppingCart;
 
 namespace Nop.Web.Models.Catalog
 {
+
+
+    public class CalanderEvent
+    {
+  
+        public string display { get; set; }
+
+        public string color { get; set; }
+        public string end { get; set; }
+
+        public string start { get; set; }
+
+        public bool overlap { get; set; }
+
+    }
+
     public partial record ProductDetailsModel : BaseNopEntityModel
     {
         public ProductDetailsModel()
@@ -31,6 +47,9 @@ namespace Nop.Web.Models.Catalog
             TierPrices = new List<TierPriceModel>();
             ProductEstimateShipping = new ProductEstimateShippingModel();
         }
+
+        public string RoomsEventsJson { get; set; }
+        public string AvailableRoomEventsJson { get; set; }
 
         //picture(s)
         public bool DefaultPictureZoomEnabled { get; set; }

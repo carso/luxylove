@@ -32,7 +32,6 @@ using Nop.Web.Areas.Admin.Models.Reports;
 using Nop.Web.Framework.Controllers;
 using Nop.Web.Framework.Mvc;
 using Nop.Web.Framework.Mvc.Filters;
-using LLO.BookingLib;
 using LLO.BookingLib.Core;
 
 namespace Nop.Web.Areas.Admin.Controllers
@@ -274,7 +273,7 @@ namespace Nop.Web.Areas.Admin.Controllers
  
             foreach(var x in bookings)
             {
-                calanderEvents.Add(new CalanderEvent() { resourceId = x.RoomCode, end = x.EndDateTime.ToString("yyyy-MM-dd"), start = x.StartDateTime.ToString("yyyy-MM-dd"), url= "/Admin/Order/Edit/8", title = string.Format(new System.Globalization.CultureInfo("ms-MY"), "{0} | {1} | {2:C}", x.CustomerName,x.Phone, x.PricePaid )});
+                calanderEvents.Add(new CalanderEvent() { resourceId = x.RoomCode, end = x.EndDateTime.AddDays(1).ToString("yyyy-MM-dd"), start = x.StartDateTime.ToString("yyyy-MM-dd"), url= "/Admin/Order/Edit/" + x.OrderId.Value.ToString(), title = string.Format(new System.Globalization.CultureInfo("ms-MY"), "{0} | {1} | {2} Days", x.CustomerName,x.Phone, x.EndDateTime.Subtract(x.StartDateTime).Days )});
             }
 
             model.RoomsEventsJson = Regex.Unescape(Newtonsoft.Json.JsonConvert.SerializeObject(calanderEvents));
@@ -1174,7 +1173,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 var cardExpirationMonth = model.CardExpirationMonth;
                 var cardExpirationYear = model.CardExpirationYear;
 
-                order.CardType = _encryptionService.EncryptText(cardType);
+                order.CardType = cardType;
                 order.CardName = _encryptionService.EncryptText(cardName);
                 order.CardNumber = _encryptionService.EncryptText(cardNumber);
                 order.MaskedCreditCardNumber = _encryptionService.EncryptText(_paymentService.GetMaskedCreditCardNumber(cardNumber));

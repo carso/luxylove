@@ -1776,7 +1776,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                     var encryptedCardExpirationMonth = _encryptionService.EncryptText(decryptedCardExpirationMonth, newEncryptionPrivateKey);
                     var encryptedCardExpirationYear = _encryptionService.EncryptText(decryptedCardExpirationYear, newEncryptionPrivateKey);
 
-                    order.CardType = encryptedCardType;
+                    order.CardType = order.CardType;
                     order.CardName = encryptedCardName;
                     order.CardNumber = encryptedCardNumber;
                     order.MaskedCreditCardNumber = encryptedMaskedCreditCardNumber;

@@ -1,6 +1,6 @@
 ﻿{
   "Group": "Payment methods",
-  "FriendlyName": "FPX",
+  "FriendlyName": "Stripe",
   "SystemName": "Payments.StripeFpx",
   "Version": "1.55",
   "SupportedVersions": [ "4.40" ],

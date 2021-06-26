@@ -41,17 +41,21 @@
 
 @{
 
-    if (@Model.CustomProperties["sessionId"] != null)
+    if (Model.CardType == "card" || Model.CardType == "fpx")
     {
-        <script type="text/javascript">
+
+        if (@Model.CustomProperties["sessionId"] != null)
+        {
+            <script type="text/javascript">
 
         var stripe = Stripe('pk_test_mqW8OQyYG5RNtGkVrBLfLvEs00gIGAT6TN');
         stripe.redirectToCheckout({ sessionId: '@Model.CustomProperties["sessionId"]' });
 
-        </script>
+            </script>
+        }
+
+
     }
-
-
 
 }
 

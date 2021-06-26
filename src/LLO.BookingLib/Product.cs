@@ -12,6 +12,7 @@ namespace LLO.BookingLib
         {
             LuxyRooms = new HashSet<LuxyRoom>();
             LuxyServices = new HashSet<LuxyService>();
+            OrderItems = new HashSet<OrderItem>();
         }
 
         public int Id { get; set; }
@@ -121,5 +122,6 @@ namespace LLO.BookingLib
 
         public virtual ICollection<LuxyRoom> LuxyRooms { get; set; }
         public virtual ICollection<LuxyService> LuxyServices { get; set; }
+        public virtual ICollection<OrderItem> OrderItems { get; set; }
     }
 }

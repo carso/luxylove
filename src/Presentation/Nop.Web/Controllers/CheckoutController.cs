@@ -302,75 +302,77 @@ namespace Nop.Web.Controllers
             //model
             var model = await _checkoutModelFactory.PrepareCheckoutCompletedModelAsync(order);
 
+   
 
-            if (session_id == null)
+            if (model.CardType == "card" || model.CardType == "fpx")
             {
-
-                var options = new SessionCreateOptions
+                if(order.OrderTotal < 50)
                 {
-                    PaymentMethodTypes = new List<string>
+                    order.PaymentMethodAdditionalFeeInclTax = order.PaymentMethodAdditionalFeeInclTax += 2;
+                    order.OrderTotal = order.PaymentMethodAdditionalFeeInclTax + order.OrderTotal;
+                }
+             
+
+                if (session_id == null)
+                {
+
+                    var options = new SessionCreateOptions
+                    {
+                        PaymentMethodTypes = new List<string>
         {
-          "fpx", "card"
+           model.CardType
         },
-                    LineItems = new List<SessionLineItemOptions>
+                        LineItems = new List<SessionLineItemOptions>
         {
           new SessionLineItemOptions
           {
             PriceData = new SessionLineItemPriceDataOptions
             {
-              UnitAmount = 2000,
+              UnitAmount =  Convert.ToInt32(Math.Round( order.OrderTotal * 100,2)),
               Currency = "myr",
               ProductData = new SessionLineItemPriceDataProductDataOptions
               {
-                Name = "T-shirt",
+                Name = "Order Id: " + order.Id.ToString(),
               },
 
             },
             Quantity = 1,
-          },
-            new SessionLineItemOptions
-          {
-            PriceData = new SessionLineItemPriceDataOptions
-            {
-              UnitAmount = 1500,
-              Currency = "myr",
-              ProductData = new SessionLineItemPriceDataProductDataOptions
-              {
-                Name = "Short",
-              },
-
-            },
-            Quantity = 10,
-          },
+          }
         },
-                    Mode = "payment",
-                    CustomerEmail = "cibai@cx.com",
-                    SuccessUrl = "https://localhost:5001/Checkout/Completed/" + orderId + "?session_id={CHECKOUT_SESSION_ID}",
-                    CancelUrl = "https://localhost:5001/Checkout/Completed/" + orderId + "?session_id={CHECKOUT_SESSION_ID}",
-                };
+                        Mode = "payment",
+                        CustomerEmail =model.CustomerEmail,
+                        SuccessUrl = "https://localhost:5001/Checkout/Completed/" + orderId + "?session_id={CHECKOUT_SESSION_ID}",
+                        CancelUrl = "https://localhost:5001/Checkout/Completed/" + orderId + "?session_id={CHECKOUT_SESSION_ID}",
+                    };
 
-                var service = new SessionService();
-                Session session = service.Create(options);
-
-
+                    var service = new SessionService();
+                    Session session = service.Create(options);
 
 
 
-                model.CustomProperties.Add("sessionId", session.Id);
+
+
+                    model.CustomProperties.Add("sessionId", session.Id);
+
+
+                }
+                else
+                {
+                    var sessionService = new SessionService();
+                    Session session = sessionService.Get(session_id);
+
+                    var customerService = new Stripe.CustomerService();
+                    Stripe.Customer customer = customerService.Get(session.CustomerId);
+
+                    model.CustomProperties.Add("sessionId", null);
+
+                }
+
+
 
 
             }
-            else
-            {
-                var sessionService = new SessionService();
-                Session session = sessionService.Get(session_id);
 
-                var customerService = new  Stripe.CustomerService();
-                Stripe.Customer customer = customerService.Get(session.CustomerId);
-
-                model.CustomProperties.Add("sessionId", null);
-
-            }
 
 
 

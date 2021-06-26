@@ -11,6 +11,7 @@ namespace LLO.BookingLib
         public Customer()
         {
             CustomerAddresses = new HashSet<CustomerAddress>();
+            Orders = new HashSet<Order>();
         }
 
         public int Id { get; set; }
@@ -41,5 +42,6 @@ namespace LLO.BookingLib
         public virtual Address BillingAddress { get; set; }
         public virtual Address ShippingAddress { get; set; }
         public virtual ICollection<CustomerAddress> CustomerAddresses { get; set; }
+        public virtual ICollection<Order> Orders { get; set; }
     }
 }

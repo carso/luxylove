@@ -12,8 +12,7 @@ namespace Nop.Plugin.Payments.StripeFpx.Models
             CreditCardTypes = new List<SelectListItem>();
             PaymentOptions = new List<SelectListItem>();
             EWallet =  new List<SelectListItem>();
-            ExpireMonths = new List<SelectListItem>();
-            ExpireYears = new List<SelectListItem>();
+   
         }
 
         [NopResourceDisplayName("Payment.SelectCreditCard")]
@@ -29,23 +28,6 @@ namespace Nop.Plugin.Payments.StripeFpx.Models
         [NopResourceDisplayName("Payment.EWallet")]
         public IList<SelectListItem> EWallet { get; set; }
 
-        [NopResourceDisplayName("Payment.CardholderName")]
-        public string CardholderName { get; set; }
-
-        [NopResourceDisplayName("Payment.CardNumber")]
-        public string CardNumber { get; set; }
-
-        [NopResourceDisplayName("Payment.ExpirationDate")]
-        public string ExpireMonth { get; set; }
-
-        [NopResourceDisplayName("Payment.ExpirationDate")]
-        public string ExpireYear { get; set; }
-
-        public IList<SelectListItem> ExpireMonths { get; set; }
-
-        public IList<SelectListItem> ExpireYears { get; set; }
-
-        [NopResourceDisplayName("Payment.CardCode")]
-        public string CardCode { get; set; }
+   
     }
 }
