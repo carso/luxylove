@@ -139,36 +139,42 @@
 
                     <div class="full-description">
 
-                   
-                            <div id='calendar' style="max-width: 1100px;margin: 40px auto;"></div>
-                   
+
+                        <div id='calendar' style="max-width: 1100px;margin: 40px auto;"></div>
+
                     </div>
-                    
 
 
-                        @if (!string.IsNullOrEmpty(Model.FullDescription))
-                        {
-                            <div class="full-description">
-                                @Html.Raw(Model.FullDescription)
-                            </div>
-                        }
-                        @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.ProductDetailsEssentialBottom, additionalData = Model })
-                    </div>
-                    @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.ProductDetailsBeforeCollateral, additionalData = Model })
-                    <div class="product-collateral">
-                        @await Html.PartialAsync("_ProductSpecifications", Model.ProductSpecificationModel)
-                        @await Html.PartialAsync("_ProductTags", Model.ProductTags)
-                    </div>
-                    @await Component.InvokeAsync("ProductsAlsoPurchased", new { productId = Model.Id })
-                    @await Component.InvokeAsync("RelatedProducts", new { productId = Model.Id })
+
+                    @if (!string.IsNullOrEmpty(Model.FullDescription))
+                    {
+                        <div class="full-description">
+                            @Html.Raw(Model.FullDescription)
+                        </div>
+                    }
+                    @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.ProductDetailsEssentialBottom, additionalData = Model })
                 </div>
+                @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.ProductDetailsBeforeCollateral, additionalData = Model })
+                <div class="product-collateral">
+                    @await Html.PartialAsync("_ProductSpecifications", Model.ProductSpecificationModel)
+                    @await Html.PartialAsync("_ProductTags", Model.ProductTags)
+                </div>
+                @await Component.InvokeAsync("ProductsAlsoPurchased", new { productId = Model.Id })
+                @await Component.InvokeAsync("RelatedProducts", new { productId = Model.Id })
+            </div>
         </form>
         @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.ProductDetailsBottom, additionalData = Model })
     </div>
 </div>
 
 
-<script asp-location="Footer">
+@{
+    if (!string.IsNullOrEmpty(@Model.RoomsEventsJson))
+    {
+
+        <script asp-location="Footer">
+
+
 
 
     document.addEventListener('DOMContentLoaded', function () {
@@ -196,5 +202,15 @@
     }
 
 
-</script>
+        </script>
+
+
+    }
+
+
+
+}
+
+
+
 

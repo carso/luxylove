@@ -1535,25 +1535,41 @@ namespace Nop.Web.Factories
             }
 
             BookingServiceProvider bookingServiceProvider = new BookingServiceProvider();
-           var bookings =  bookingServiceProvider.GetActiveBookingByRoomCode(product.Sku);
-           List<CalanderEvent> calanderEvents = new List<CalanderEvent>();
-            List<CalanderEvent> availableCalanderEvents = new List<CalanderEvent>();
 
-            var availableBookings =  bookingServiceProvider.GetActiveBookingByRoomCodeAvailable(product.Sku,28);
-
-            foreach (var x in availableBookings)
+            if (bookingServiceProvider.IsRoomProduct(product.Sku))
             {
-                availableCalanderEvents.Add(new CalanderEvent() { end = x.EndDateTime.ToString("yyyy-MM-dd"), start = x.StartDateTime.AddDays(1).ToString("yyyy-MM-dd"), display = "background", overlap = false });
+
+
+
+                var bookings = bookingServiceProvider.GetActiveBookingByRoomCode(product.Sku);
+                List<CalanderEvent> calanderEvents = new List<CalanderEvent>();
+                List<CalanderEvent> availableCalanderEvents = new List<CalanderEvent>();
+
+                var availableBookings = bookingServiceProvider.GetActiveBookingByRoomCodeAvailable(product.Sku, 28);
+
+                foreach (var x in availableBookings)
+                {
+                    availableCalanderEvents.Add(new CalanderEvent() { end = x.EndDateTime.ToString("yyyy-MM-dd"), start = x.StartDateTime.AddDays(1).ToString("yyyy-MM-dd"), display = "background", overlap = false });
+                }
+
+                foreach (var x in bookings)
+                {
+                    calanderEvents.Add(new CalanderEvent() { end = x.EndDateTime.AddDays(1).ToString("yyyy-MM-dd"), start = x.StartDateTime.ToString("yyyy-MM-dd"), color = "#808080", display = "background", overlap = false });
+                }
+
+                availableCalanderEvents = availableCalanderEvents.Where(p => DateTime.Parse(p.start) >= DateTime.Today).ToList();
+
+                calanderEvents.AddRange(availableCalanderEvents);
+
+
+         
+
+
+                
+
+                model.RoomsEventsJson = Regex.Unescape(Newtonsoft.Json.JsonConvert.SerializeObject(calanderEvents));
+
             }
-
-            foreach (var x in bookings)
-            {
-                calanderEvents.Add(new CalanderEvent() {  end = x.EndDateTime.AddDays(1).ToString("yyyy-MM-dd"), start = x.StartDateTime.ToString("yyyy-MM-dd"), color= "#808080", display= "background", overlap =false });
-            }
-
-            calanderEvents.AddRange(availableCalanderEvents);
-
-            model.RoomsEventsJson = Regex.Unescape(Newtonsoft.Json.JsonConvert.SerializeObject(calanderEvents));
 
             //associated products
             if (product.ProductType == ProductType.GroupedProduct)

@@ -418,7 +418,7 @@ namespace Nop.Services.Orders
 
                 if (bookingModel == null)
                 {
-                    throw new NopException("Room Booking failed or not allowed. Please make sure no double room booking.");
+                    throw new NopException("Room Booking failed or not allowed. Please make sure no double room booking. And no multiple rooms booking in 1 order.");
                 }
 
 

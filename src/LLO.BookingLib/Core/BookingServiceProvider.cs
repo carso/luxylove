@@ -95,9 +95,20 @@ namespace LLO.BookingLib.Core
 
         public List<BookingModel> GetActiveBookingByRoomCodeAvailable(string roomCode, int days)
         {
+            List<BookingModel> activeBookings = new List<BookingModel>();
+
             var bookings = _entities.LuxyBookings.Where(p => p.IsVoid == false && p.IsOpen == true && p.RoomCode == roomCode).OrderBy(p=>p.StartDateTime).ToArray();
 
-            List<BookingModel> activeBookings = new List<BookingModel>();
+            if (bookings.Count() == 0)
+            {
+                BookingModel defaultbookingModel = new BookingModel();
+                defaultbookingModel.StartDateTime = DateTime.Today;
+                defaultbookingModel.EndDateTime = DateTime.Today.AddYears(2);
+
+                activeBookings.Add(defaultbookingModel);
+                return activeBookings;
+            }
+
            
             for (int i = 0; i < bookings.Count()-1; i++)
             {
@@ -114,6 +125,27 @@ namespace LLO.BookingLib.Core
             }
 
 
+            if (bookings[0].StartDateTime.Subtract(DateTime.Today).Days > days)
+            {
+
+                BookingModel bookingModel = new BookingModel();
+                bookingModel.StartDateTime = DateTime.Now;
+                bookingModel.EndDateTime = bookings[0].StartDateTime;
+
+                activeBookings.Add(bookingModel);
+
+            }
+
+
+
+            //add another 2 years active
+            BookingModel endbookingModel = new BookingModel();
+            endbookingModel.StartDateTime = bookings[bookings.Length - 1].EndDateTime;
+            endbookingModel.EndDateTime = endbookingModel.StartDateTime.AddYears(2);
+            activeBookings.Add(endbookingModel);
+          
+
+
             return activeBookings;
         }
 
@@ -126,6 +158,18 @@ namespace LLO.BookingLib.Core
             return orderItems.Any();
         }
 
+
+        public bool IsRoomProduct(string sku)
+        {
+            List<string> roomSkus = new List<string>(new string[] { "A1", "A2", "B1", "B2", "B2A", "B2B", "B3", "B3A", "B3B", "C1", "C2", "C3" });
+
+            if (roomSkus.Contains(sku))
+            {
+                return true;
+            }
+
+            return false;
+        }
 
         public Guid? GetcancellationBookingGuid(int orderId)
         {
@@ -172,6 +216,14 @@ namespace LLO.BookingLib.Core
 
             List<string> roomSkus = new List<string>(new string[] { "A1", "A2", "B1", "B2", "B2A", "B2B", "B3", "B3A", "B3B", "C1", "C2", "C3" });
 
+
+            //No booking if one order consist of more than 1 room
+            if (_entities.OrderItems.Where(p => p.OrderId == orderId && roomSkus.Contains(p.Product.Sku)).Count() > 1)
+            {
+                return null;
+            }
+
+
             var orderItem = _entities.OrderItems.Where(p => p.OrderId == orderId && roomSkus.Contains(p.Product.Sku)).FirstOrDefault();
 
 
@@ -179,7 +231,7 @@ namespace LLO.BookingLib.Core
 
 
             //no booking if no product attributes
-            if (productCustom.Count() < 3)
+            if (productCustom.Count() < 2)
             {
                 return null;
             }
@@ -187,9 +239,9 @@ namespace LLO.BookingLib.Core
 
             DateTime checkInTime = DateTime.Parse(productCustom[0].Replace("Check In Date: ", ""));
 
-            int days = int.Parse(productCustom[1].Replace("Days: ", "").Replace(" [+RM5,000.00]",""));
+            int days = int.Parse(productCustom[1].Replace("Days: ", "").Substring(0,2));
 
-            //string packageOption = productCustom[2].Replace("Package Options: ", "");
+     
 
             PackageDay packageDay = PackageDay.Standard;
 
@@ -271,10 +323,10 @@ namespace LLO.BookingLib.Core
                 //shared booking
                 if (isShared)
                 {
-                    var sharedBooking = _entities.LuxyBookings.Where(p => p.RoomNo == room.RoomNo).Where(x => (startDateTime >= x.StartDateTime && startDateTime <= x.EndDateTime) || (endDateTime >= x.StartDateTime && endDateTime <= x.EndDateTime));
+                    var sharedBooking = _entities.LuxyBookings.Where(p => p.RoomNo == room.RoomNo && p.IsVoid ==false).Where(x => (startDateTime >= x.StartDateTime && startDateTime <= x.EndDateTime) || (endDateTime >= x.StartDateTime && endDateTime <= x.EndDateTime));
 
                     //add another booking if still a bed left for shared bedroom
-                    if (sharedBooking.Count() < 2)
+                    if (sharedBooking.GroupBy(p=>p.RoomCode).Count() < 2)
                     {
 
                         //convertable room exist
@@ -322,7 +374,7 @@ namespace LLO.BookingLib.Core
 
                     if (isConvertable)
                     {
-                        var sharedBooking = _entities.LuxyBookings.Where(p => p.IsShared && p.RoomNo == room.RoomNo).Where(x => (startDateTime >= x.StartDateTime && startDateTime <= x.EndDateTime) || (endDateTime >= x.StartDateTime && endDateTime <= x.EndDateTime));
+                        var sharedBooking = _entities.LuxyBookings.Where(p => p.IsShared && p.RoomNo == room.RoomNo && p.IsVoid == false).Where(x => (startDateTime >= x.StartDateTime && startDateTime <= x.EndDateTime) || (endDateTime >= x.StartDateTime && endDateTime <= x.EndDateTime));
 
                         if (sharedBooking.Count() >= 1)
                         {
@@ -333,7 +385,7 @@ namespace LLO.BookingLib.Core
 
 
                     //not shared
-                    var booking = _entities.LuxyBookings.Where(p => p.RoomCode == roomCode).Where(x => (startDateTime >= x.StartDateTime && startDateTime <= x.EndDateTime) || (endDateTime >= x.StartDateTime && endDateTime <= x.EndDateTime)).FirstOrDefault();
+                    var booking = _entities.LuxyBookings.Where(p => p.RoomCode == roomCode && p.IsVoid == false).Where(x => (startDateTime >= x.StartDateTime && startDateTime <= x.EndDateTime) || (endDateTime >= x.StartDateTime && endDateTime <= x.EndDateTime)).FirstOrDefault();
 
                     if (booking == null)
                     {
