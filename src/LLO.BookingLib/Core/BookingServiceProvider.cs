@@ -78,7 +78,30 @@ namespace LLO.BookingLib.Core
 
         public List<BookingModel> GetActiveBookingByRoomCode(string roomCode)
         {
-            var bookings = _entities.LuxyBookings.Where(p => p.IsVoid == false && p.IsOpen == true && p.RoomCode == roomCode);
+            var bookings = _entities.LuxyBookings.Where(p => p.IsVoid == false && p.IsOpen == true && p.RoomCode == roomCode).ToList();
+
+            var room = _entities.LuxyRooms.Where(p => p.RoomCode == roomCode).FirstOrDefault();
+
+            bool isConvertable = _entities.LuxyRooms.Where(p => p.RoomNo == room.RoomNo).Count() > 1;
+
+            bool isShared = room.RoomType == "DeluxeTwinBed" ? true : false;
+
+
+            if (isConvertable)
+            {              
+
+                if (isShared)
+                {
+                    var nonSharebookings = _entities.LuxyBookings.Where(p => p.IsVoid == false && p.IsOpen == true && p.IsShared == false && p.RoomNo == room.RoomNo).ToList();
+
+                    bookings.AddRange(nonSharebookings);
+                }
+                else
+                {
+                    //Non shared, customer occupied the whole room
+                    bookings = _entities.LuxyBookings.Where(p => p.IsVoid == false && p.IsOpen == true && p.RoomNo == room.RoomNo).ToList();
+                }
+            }
 
             List<BookingModel> activeBookings = new List<BookingModel>();
 
@@ -97,7 +120,36 @@ namespace LLO.BookingLib.Core
         {
             List<BookingModel> activeBookings = new List<BookingModel>();
 
-            var bookings = _entities.LuxyBookings.Where(p => p.IsVoid == false && p.IsOpen == true && p.RoomCode == roomCode).OrderBy(p=>p.StartDateTime).ToArray();
+            var bookings = _entities.LuxyBookings.Where(p => p.IsVoid == false && p.IsOpen == true && p.RoomCode == roomCode).OrderBy(p=>p.StartDateTime).ToList();
+
+
+            var room = _entities.LuxyRooms.Where(p => p.RoomCode == roomCode).FirstOrDefault();
+
+            bool isConvertable = _entities.LuxyRooms.Where(p => p.RoomNo == room.RoomNo).Count() > 1;
+
+            bool isShared = room.RoomType == "DeluxeTwinBed" ? true : false;
+
+
+            if (isConvertable)
+            {              
+
+
+                if (isShared)
+                {
+                    var nonSharebookings = _entities.LuxyBookings.Where(p => p.IsVoid == false && p.IsOpen == true && p.IsShared == false && p.RoomNo == room.RoomNo).ToList();
+
+                    bookings.AddRange(nonSharebookings);
+
+                    bookings = bookings.OrderBy(p => p.StartDateTime).ToList();
+                }
+                else
+                {
+                    //Non shared, customer occupied the whole room
+                    bookings = _entities.LuxyBookings.Where(p => p.IsVoid == false && p.IsOpen == true && p.RoomNo == room.RoomNo).OrderBy(p => p.StartDateTime).ToList();
+                }
+
+            }
+
 
             if (bookings.Count() == 0)
             {
@@ -140,7 +192,7 @@ namespace LLO.BookingLib.Core
 
             //add another 2 years active
             BookingModel endbookingModel = new BookingModel();
-            endbookingModel.StartDateTime = bookings[bookings.Length - 1].EndDateTime;
+            endbookingModel.StartDateTime = bookings[bookings.Count - 1].EndDateTime;
             endbookingModel.EndDateTime = endbookingModel.StartDateTime.AddYears(2);
             activeBookings.Add(endbookingModel);
           
