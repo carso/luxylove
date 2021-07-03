@@ -13,6 +13,8 @@ namespace LLO.BookingLib
             LuxyRooms = new HashSet<LuxyRoom>();
             LuxyServices = new HashSet<LuxyService>();
             OrderItems = new HashSet<OrderItem>();
+            ProductCategoryMappings = new HashSet<ProductCategoryMapping>();
+            ProductProductAttributeMappings = new HashSet<ProductProductAttributeMapping>();
         }
 
         public int Id { get; set; }
@@ -123,5 +125,7 @@ namespace LLO.BookingLib
         public virtual ICollection<LuxyRoom> LuxyRooms { get; set; }
         public virtual ICollection<LuxyService> LuxyServices { get; set; }
         public virtual ICollection<OrderItem> OrderItems { get; set; }
+        public virtual ICollection<ProductCategoryMapping> ProductCategoryMappings { get; set; }
+        public virtual ICollection<ProductProductAttributeMapping> ProductProductAttributeMappings { get; set; }
     }
 }

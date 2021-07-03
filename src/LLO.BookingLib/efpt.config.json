@@ -18,6 +18,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[Category]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[Customer]",
          "ObjectType": 0
       },
@@ -55,6 +59,18 @@
       },
       {
          "Name": "[dbo].[Product]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Product_Category_Mapping]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Product_ProductAttribute_Mapping]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ProductAttribute]",
          "ObjectType": 0
       }
    ],

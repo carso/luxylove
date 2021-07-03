@@ -19,6 +19,7 @@ namespace LLO.BookingLib
         }
 
         public virtual DbSet<Address> Addresses { get; set; }
+        public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<CustomerAddress> CustomerAddresses { get; set; }
         public virtual DbSet<LuxyBooking> LuxyBookings { get; set; }
@@ -29,11 +30,15 @@ namespace LLO.BookingLib
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<OrderItem> OrderItems { get; set; }
         public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<ProductAttribute> ProductAttributes { get; set; }
+        public virtual DbSet<ProductCategoryMapping> ProductCategoryMappings { get; set; }
+        public virtual DbSet<ProductProductAttributeMapping> ProductProductAttributeMappings { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
                 optionsBuilder.UseLazyLoadingProxies().UseSqlServer("Data Source=DESKTOP-0O24J6N;Initial Catalog=luxylovedb;Persist Security Info=True;User ID=carso;Password=123456$$");
             }
         }
@@ -49,6 +54,35 @@ namespace LLO.BookingLib
                 entity.HasIndex(e => e.CountryId, "IX_Address_CountryId");
 
                 entity.HasIndex(e => e.StateProvinceId, "IX_Address_StateProvinceId");
+            });
+
+            modelBuilder.Entity<Category>(entity =>
+            {
+                entity.ToTable("Category");
+
+                entity.HasIndex(e => e.Deleted, "IX_Category_Deleted_Extended");
+
+                entity.HasIndex(e => e.DisplayOrder, "IX_Category_DisplayOrder");
+
+                entity.HasIndex(e => e.LimitedToStores, "IX_Category_LimitedToStores");
+
+                entity.HasIndex(e => e.ParentCategoryId, "IX_Category_ParentCategoryId");
+
+                entity.HasIndex(e => e.SubjectToAcl, "IX_Category_SubjectToAcl");
+
+                entity.Property(e => e.MetaKeywords).HasMaxLength(400);
+
+                entity.Property(e => e.MetaTitle).HasMaxLength(400);
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(400);
+
+                entity.Property(e => e.PageSizeOptions).HasMaxLength(200);
+
+                entity.Property(e => e.PriceFrom).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.PriceTo).HasColumnType("decimal(18, 4)");
             });
 
             modelBuilder.Entity<Customer>(entity =>
@@ -486,6 +520,59 @@ namespace LLO.BookingLib
                 entity.Property(e => e.Weight).HasColumnType("decimal(18, 4)");
 
                 entity.Property(e => e.Width).HasColumnType("decimal(18, 4)");
+            });
+
+            modelBuilder.Entity<ProductAttribute>(entity =>
+            {
+                entity.ToTable("ProductAttribute");
+
+                entity.Property(e => e.Name).IsRequired();
+            });
+
+            modelBuilder.Entity<ProductCategoryMapping>(entity =>
+            {
+                entity.ToTable("Product_Category_Mapping");
+
+                entity.HasIndex(e => new { e.ProductId, e.IsFeaturedProduct }, "IX_PCM_ProductId_Extended");
+
+                entity.HasIndex(e => new { e.CategoryId, e.ProductId }, "IX_PCM_Product_and_Category");
+
+                entity.HasIndex(e => e.CategoryId, "IX_Product_Category_Mapping_CategoryId");
+
+                entity.HasIndex(e => e.IsFeaturedProduct, "IX_Product_Category_Mapping_IsFeaturedProduct");
+
+                entity.HasIndex(e => e.ProductId, "IX_Product_Category_Mapping_ProductId");
+
+                entity.HasOne(d => d.Category)
+                    .WithMany(p => p.ProductCategoryMappings)
+                    .HasForeignKey(d => d.CategoryId)
+                    .HasConstraintName("FK_Product_Category_Mapping_CategoryId_Category_Id");
+
+                entity.HasOne(d => d.Product)
+                    .WithMany(p => p.ProductCategoryMappings)
+                    .HasForeignKey(d => d.ProductId)
+                    .HasConstraintName("FK_Product_Category_Mapping_ProductId_Product_Id");
+            });
+
+            modelBuilder.Entity<ProductProductAttributeMapping>(entity =>
+            {
+                entity.ToTable("Product_ProductAttribute_Mapping");
+
+                entity.HasIndex(e => e.ProductAttributeId, "IX_Product_ProductAttribute_Mapping_ProductAttributeId");
+
+                entity.HasIndex(e => e.ProductId, "IX_Product_ProductAttribute_Mapping_ProductId");
+
+                entity.HasIndex(e => new { e.ProductId, e.DisplayOrder }, "IX_Product_ProductAttribute_Mapping_ProductId_DisplayOrder");
+
+                entity.HasOne(d => d.ProductAttribute)
+                    .WithMany(p => p.ProductProductAttributeMappings)
+                    .HasForeignKey(d => d.ProductAttributeId)
+                    .HasConstraintName("FK_Product_ProductAttribute_Mapping_ProductAttributeId_ProductAttribute_Id");
+
+                entity.HasOne(d => d.Product)
+                    .WithMany(p => p.ProductProductAttributeMappings)
+                    .HasForeignKey(d => d.ProductId)
+                    .HasConstraintName("FK_Product_ProductAttribute_Mapping_ProductId_Product_Id");
             });
 
             OnModelCreatingPartial(modelBuilder);

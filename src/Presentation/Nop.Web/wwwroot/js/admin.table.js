@@ -1,4 +1,6 @@
-﻿var entityMap = {
+﻿
+
+var entityMap = {
   '&': '&amp;',
   '<': '&lt;',
   '>': '&gt;',
@@ -17,6 +19,9 @@ function escapeHtml(string) {
     return entityMap[s];
   });
 }
+
+
+
 
 //selectedIds - This variable will be used on views. It can not be renamed
 var selectedIds = [];
